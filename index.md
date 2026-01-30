@@ -1,5 +1,6 @@
 ---
-title: "VIISIRI Green Coding Guide"
+title: "Home"
+nav_order: 0
 permalink: /
 ---
 

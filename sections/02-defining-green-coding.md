@@ -1,6 +1,6 @@
 ---
 title: "Defining Green Coding"
-order: 2
+nav_order: 2
 permalink: /defining-green-coding/
 ---
 

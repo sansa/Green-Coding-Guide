@@ -1,6 +1,6 @@
 ---
 title: "Outlook"
-order: 9
+nav_order: 9
 permalink: /outlook/
 ---
 

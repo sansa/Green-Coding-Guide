@@ -1,6 +1,6 @@
 ---
 title: "Checklists"
-order: 8
+nav_order: 8
 permalink: /checklists/
 ---
 
