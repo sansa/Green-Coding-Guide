@@ -1,6 +1,7 @@
 title: Green Coding Guide
 description: Energy-aware software development guide (VIISIRI)
-theme: just-the-docs
+remote_theme: just-the-docs/just-the-docs
+# theme: just-the-docs
 
 # IMPORTANT for project pages (repo pages)
 url: "https://sansa.github.io"
