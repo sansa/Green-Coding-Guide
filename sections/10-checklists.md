@@ -1,10 +1,10 @@
 ---
 title: "Checklists"
-nav_order: 8
+nav_order: 10
 permalink: /checklists/
 ---
 
-# 8. Green Coding Checklists
+# 10. Green Coding Checklists
 
 These checklists support reflection and discussion rather than compliance.
 
