@@ -1,3 +1,9 @@
+---
+title: "Defining Green Coding"
+nav_order: 2
+permalink: /defining-green-coding/
+---
+
 # 2. Defining Green Coding
 
 ## 2.1 What Is Green Coding?
