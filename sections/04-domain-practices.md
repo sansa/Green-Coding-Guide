@@ -50,6 +50,9 @@ Key practices:
 - Apply data retention and lifecycle policies
 - Align processing frequency with actual needs
 
+
+## Backend - Data Centers
+
 ## 4.5 AI Development – Training
 
 AI training energy footprint is dominated by accelerator runtime.
@@ -69,3 +72,6 @@ Key practices:
 - Minimize prompt and input size
 - Cache deterministic outputs and embeddings
 - Batch requests where feasible
+
+## Infrastructure
+collaborate with University of oolu
