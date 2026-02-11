@@ -9,13 +9,6 @@ permalink: /
 
 This guide presents a practical, evidence-based approach to reducing the **energy footprint of software systems** across frontend, backend, and AI domains.
 
-## Funders & Partners
-<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;">
-  <img src="{{ '/images/EN_Co-fundedbytheEU_RGB_POS.png' | relative_url }}" alt="Co-funded by the European Union (EN)" style="max-height:70px;max-width:100%;height:auto;" />
-  <img src="{{ '/images/FI_Co-fundedbytheEU_RGB_POS.png' | relative_url }}" alt="Co-funded by the European Union (FI)" style="max-height:70px;max-width:100%;height:auto;" />
-  <img src="{{ '/images/LUT_University_Logo.png' | relative_url }}" alt="LUT University" style="max-height:70px;max-width:100%;height:auto;" />
-</div>
-
 ## Sections
 1. [Introduction]({{ "/introduction/" | relative_url }})
 2. [Defining Green Coding]({{ "/defining-green-coding/" | relative_url }})
