@@ -10,14 +10,14 @@ Green coding, as described in this guide, is primarily concerned with reducing t
 
 ## 9.1 From Footprint to Handprint
 
-The concept of a *handprint* originates in sustainability research as a counterpart to the more familiar *footprint*. Where a footprint measures the environmental burden of an activity — the resources consumed, the emissions generated — a handprint measures the environmental benefit it creates: the footprint that is avoided, reduced, or restored as a result of the activity (Biggs et al., 2020).
+The concept of a *handprint* originates in sustainability research as a counterpart to the more familiar *footprint*. Where a footprint measures the environmental burden of an activity, including the resources consumed and the emissions generated, a handprint measures the environmental benefit it creates: the footprint that is avoided, reduced, or restored as a result of the activity (Biggs et al., 2020).
 
 Applied to software, the distinction maps cleanly onto two separate questions:
 
 - **Footprint question**: How much energy does this software consume when it runs?
 - **Handprint question**: What environmental harm does this software prevent or reduce by functioning as intended?
 
-These are independent. Software with a large footprint can have a large positive handprint — for example, a computationally intensive route optimisation system that saves millions of litres of fuel annually. Software with a small footprint can have a negligible handprint — for example, a well-optimised but functionally trivial application. And software can, in some cases, have a negative handprint — enabling activities or consumption patterns that increase total environmental harm.
+These are independent. Software with a large footprint can have a large positive handprint, for example a computationally intensive route optimisation system that saves millions of litres of fuel annually. Software with a small footprint can have a negligible handprint, for example a well-optimised but functionally trivial application. And software can, in some cases, have a negative handprint, enabling activities or consumption patterns that increase total environmental harm.
 
 Green coding practice addresses the footprint dimension. Understanding the handprint dimension requires asking a different and broader question: *what does this software make possible, and what is the environmental consequence of that?*
 
@@ -33,37 +33,37 @@ Software platforms that support remote work reduce the need for daily commuting 
 
 **Optimising physical systems**
 Some of the largest handprint opportunities arise from software that makes physical infrastructure more efficient. Examples include:
-- *Smart building management systems* that dynamically adjust heating, cooling, and lighting based on occupancy and weather, reducing energy consumption in buildings — which account for a substantial share of global energy use.
+- *Smart building management systems* that dynamically adjust heating, cooling, and lighting based on occupancy and weather, reducing energy consumption in buildings, which account for a substantial share of global energy use.
 - *Intelligent transport systems* that optimise traffic flow, reduce idling, and improve public transport scheduling, lowering fuel consumption across vehicle fleets.
 - *Precision agriculture platforms* that use sensor data and modelling to apply water, fertiliser, and pesticides only where and when they are needed, reducing resource consumption and associated emissions.
 - *Grid management and demand response software* that integrates renewable energy sources, shifts flexible demand to periods of high renewable generation, and reduces curtailment of wind and solar power.
 
 **Enabling scientific and engineering progress**
-Software tools that accelerate research into clean energy, materials science, climate modelling, and low-carbon engineering can have handprint effects that compound over time. The environmental value of a simulation tool that reduces the cost of developing a more efficient battery chemistry, for example, cannot be captured in the software's own energy footprint — it emerges through the downstream applications of the research it enables.
+Software tools that accelerate research into clean energy, materials science, climate modelling, and low-carbon engineering can have handprint effects that compound over time. The environmental value of a simulation tool that reduces the cost of developing a more efficient battery chemistry, for example, cannot be captured in the software's own energy footprint; it emerges through the downstream applications of the research it enables.
 
 ## 9.3 Evaluating Handprint Claims
 
-The handprint concept is valuable but easily misused. Because handprint effects are indirect and involve counterfactuals — what *would have happened* without the software — they are inherently more difficult to measure and verify than footprint effects. Several principles guide rigorous handprint evaluation.
+The handprint concept is valuable but easily misused. Because handprint effects are indirect and involve counterfactuals (what *would have happened* without the software), they are inherently more difficult to measure and verify than footprint effects. Several principles guide rigorous handprint evaluation.
 
 **Additionality**
-A genuine handprint requires that the environmental benefit would not have occurred without the software. If a route optimisation system is deployed in place of a system that was already performing adequate optimisation, the marginal benefit of the new system is the relevant handprint — not the total emissions avoided by any route optimisation whatsoever. Additionality is frequently overstated in sustainability reporting.
+A genuine handprint requires that the environmental benefit would not have occurred without the software. If a route optimisation system is deployed in place of a system that was already performing adequate optimisation, the marginal benefit of the new system is the relevant handprint, not the total emissions avoided by any route optimisation whatsoever. Additionality is frequently overstated in sustainability reporting.
 
 **Rebound effects**
-Efficiency improvements enabled by software can trigger increases in the activity being made efficient, partially or fully offsetting the environmental gain. More efficient navigation reduces fuel consumption per trip — but cheaper, faster, or more convenient transport can increase the total number of trips. More efficient data compression reduces the energy cost per gigabyte — but lower cost per gigabyte increases total data consumption. These *rebound effects* must be considered when estimating net handprint.
+Efficiency improvements enabled by software can trigger increases in the activity being made efficient, partially or fully offsetting the environmental gain. More efficient navigation reduces fuel consumption per trip, but cheaper, faster, or more convenient transport can increase the total number of trips. More efficient data compression reduces the energy cost per gigabyte, but lower cost per gigabyte increases total data consumption. These *rebound effects* must be considered when estimating net handprint.
 
 **Counterfactual specificity**
-A handprint claim requires specifying what the alternative scenario is. "Software X reduces carbon emissions" is not a complete claim — it must be compared to a defined baseline. Is the alternative no software at all? An earlier version of the software? A manual process? A competitor's product? The magnitude of the handprint depends heavily on which counterfactual is chosen, and the choice should be explicit and justified.
+A handprint claim requires specifying what the alternative scenario is. "Software X reduces carbon emissions" is not a complete claim; it must be compared to a defined baseline. Is the alternative no software at all? An earlier version of the software? A manual process? A competitor's product? The magnitude of the handprint depends heavily on which counterfactual is chosen, and the choice should be explicit and justified.
 
 **Scope and time horizon**
-Handprint effects can operate over very different timescales. The fuel saved by a route optimisation system is realised immediately, while the effect of accelerating clean-energy research may take decades to materialise. Long time horizons increase uncertainty. Be explicit about the scope of the handprint claim — which effects are included, over what time period, and with what uncertainty.
+Handprint effects can operate over very different timescales. The fuel saved by a route optimisation system is realised immediately, while the effect of accelerating clean-energy research may take decades to materialise. Long time horizons increase uncertainty. Be explicit about the scope of the handprint claim: which effects are included, over what time period, and with what uncertainty.
 
 ## 9.4 Net Impact and the Relationship Between Footprint and Handprint
 
 For most software systems, the direct energy footprint is small relative to the functional value delivered. A well-designed smart thermostat system, for example, might consume a few kilowatt-hours per year in communication and computation while enabling heating and cooling savings of hundreds of kilowatt-hours per year in the buildings it manages. In such cases, the handprint substantially dominates the footprint, and the net environmental impact of the software is clearly positive.
 
-However, this favourable ratio is not universal, and it should not be assumed. Software that consumes significant energy — large-scale data processing, continuous video streaming, AI model training — can only claim a positive net impact if its handprint effects are real, additional, and large enough to outweigh its footprint. Claims to that effect should be held to the same standard of evidence as any other empirical claim.
+However, this favourable ratio is not universal, and it should not be assumed. Software that consumes significant energy, such as large-scale data processing, continuous video streaming, or AI model training, can only claim a positive net impact if its handprint effects are real, additional, and large enough to outweigh its footprint. Claims to that effect should be held to the same standard of evidence as any other empirical claim.
 
-For software developers and architects, the practical implication is this: **reducing the footprint and understanding the handprint are complementary, not competing, concerns**. A system with a genuine positive handprint can maximise its net benefit by also minimising its operational footprint. And the discipline of thinking rigorously about environmental impact — quantitatively, counterfactually, with attention to rebound effects — is the same discipline whether it is applied to footprint or handprint.
+For software developers and architects, the practical implication is this: **reducing the footprint and understanding the handprint are complementary, not competing, concerns**. A system with a genuine positive handprint can maximise its net benefit by also minimising its operational footprint. The discipline of thinking rigorously about environmental impact, quantitatively, counterfactually, and with attention to rebound effects, is the same discipline whether it is applied to footprint or handprint.
 
 ---
 

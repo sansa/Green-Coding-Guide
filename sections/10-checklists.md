@@ -6,7 +6,7 @@ permalink: /checklists/
 
 # 10. Green Coding Checklists
 
-These checklists support reflection and discussion during code review, design review, or retrospectives — not compliance audits. Use them as prompts to identify energy-related risks, not as a pass/fail gate.
+These checklists support reflection and discussion during code review, design review, or retrospectives, not as compliance audits. Use them as prompts to identify energy-related risks, not as a pass/fail gate.
 
 ## 10.1 Frontend – Web
 - Are re-renders limited to the components that actually changed?

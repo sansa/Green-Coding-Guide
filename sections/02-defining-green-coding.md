@@ -16,7 +16,7 @@ Several representative definitions illustrate the range of perspectives:
 - *Energy-efficient software* is commonly described as software that “reduces energy consumption during execution while maintaining acceptable performance” (Procaccianti et al., 2014).
 - *Sustainable software engineering* has been framed as the discipline of designing software systems with explicit consideration of long-term environmental, social, and economic impacts (Becker et al., 2016).
 
-These definitions differ primarily in **scope**. Some adopt a broad lifecycle perspective, encompassing development, deployment, use, and disposal, while others focus more narrowly on **runtime behavior**. For the purposes of this guide—whose primary audience includes software developers and architects making concrete design and implementation decisions—a runtime-focused definition provides the greatest practical and empirical value.
+These definitions differ primarily in **scope**. Some adopt a broad lifecycle perspective, encompassing development, deployment, use, and disposal, while others focus more narrowly on **runtime behavior**. For the purposes of this guide, whose primary audience includes software developers and architects making concrete design and implementation decisions, a runtime-focused definition provides the greatest practical and empirical value.
 
 Accordingly, this guide adopts the following working definition:
 
