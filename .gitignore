@@ -1,1 +1,6 @@
 research_docs
+.bundle/
+vendor/
+tmp/
+_site/
+.jekyll-cache/

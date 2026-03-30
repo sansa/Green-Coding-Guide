@@ -3,6 +3,10 @@ description: Energy-aware software development guide (VIISIRI)
 remote_theme: just-the-docs/just-the-docs
 # theme: just-the-docs
 
+plugins:
+  - jekyll-include-cache
+  - jekyll-remote-theme
+
 # IMPORTANT for project pages (repo pages)
 url: "https://sansa.github.io"
 baseurl: "/Green-Coding-Guide"
