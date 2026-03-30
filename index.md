@@ -1,23 +1,23 @@
 ---
-title: "Home"
+title: "Etusivu"
 nav_order: 0
 permalink: /
 ---
 
 # VIISIRI Green Coding Guide
-### Energy-Aware Software Development Across Domains
+### Energiatietoinen ohjelmistokehitys eri sovellusalueilla
 
-This guide presents a practical, evidence-based approach to reducing the **energy footprint of software systems** across frontend, backend, and AI domains.
+Tämä opas esittelee käytännöllisen ja tutkimusnäyttöön perustuvan lähestymistavan **ohjelmistojärjestelmien energiajalanjäljen** pienentämiseen frontend-, backend- ja tekoälyalueilla.
 
-## Sections
-1. [Introduction]({{ "/introduction/" | relative_url }})
-2. [Defining Green Coding]({{ "/defining-green-coding/" | relative_url }})
-3. [Core Principles]({{ "/core-principles/" | relative_url }})
-4. [Practices by Domain]({{ "/domain-practices/" | relative_url }})
-5. [Measurement & Feedback]({{ "/measurement-feedback/" | relative_url }})
-6. [Workflow Integration]({{ "/workflows/" | relative_url }})
-7. [Trade-offs & Limitations]({{ "/tradeoffs/" | relative_url }})
-8. [Resource Footprint of Software]({{ "/footprint/" | relative_url }})
-9. [Sustainability Handprint of Software]({{ "/handprint/" | relative_url }})
-10. [Checklists]({{ "/checklists/" | relative_url }})
-11. [Outlook]({{ "/outlook/" | relative_url }})
+## Osiot
+1. [Johdanto]({{ "/introduction/" | relative_url }})
+2. [Vihreän koodauksen määritelmä]({{ "/defining-green-coding/" | relative_url }})
+3. [Keskeiset periaatteet]({{ "/core-principles/" | relative_url }})
+4. [Käytännöt sovellusalueittain]({{ "/domain-practices/" | relative_url }})
+5. [Mittaaminen ja palaute]({{ "/measurement-feedback/" | relative_url }})
+6. [Integrointi työnkulkuihin]({{ "/workflows/" | relative_url }})
+7. [Kompromissit ja rajoitukset]({{ "/tradeoffs/" | relative_url }})
+8. [Ohjelmiston resurssijälki]({{ "/footprint/" | relative_url }})
+9. [Ohjelmiston kestävyyskädenjälki]({{ "/handprint/" | relative_url }})
+10. [Tarkistuslistat]({{ "/checklists/" | relative_url }})
+11. [Tulevaisuuden näkymät]({{ "/outlook/" | relative_url }})

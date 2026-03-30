@@ -1,73 +1,73 @@
 ---
-title: "Software Sustainability Handprint"
+title: "Ohjelmiston kestävyyskädenjälki"
 nav_order: 9
 permalink: /handprint/
 ---
 
-# 9. Software Sustainability Handprint
+# 9. Ohjelmiston kestävyyskädenjälki
 
-Green coding, as described in this guide, is primarily concerned with reducing the direct energy cost of running software. But software also has an indirect environmental dimension: the systems it enables, the behaviours it mediates, and the physical processes it replaces or improves can have positive environmental effects that far exceed the energy cost of the software itself. This positive environmental contribution is referred to as the **software sustainability handprint**.
+Vihreä koodaus, kuten tässä oppaassa kuvataan, keskittyy ensisijaisesti ohjelmiston suorittamisen suorien energiakustannusten vähentämiseen. Ohjelmistolla on kuitenkin myös välillinen ympäristöulottuvuus: järjestelmät, joita se mahdollistaa, käyttäytymiset, joita se välittää, ja fyysiset prosessit, jotka se korvaa tai parantaa, voivat tuottaa myönteisiä ympäristövaikutuksia, jotka ylittävät huomattavasti ohjelmiston oman energiakustannuksen. Tähän myönteiseen ympäristöpanokseen viitataan **ohjelmiston kestävyyskädenjälkenä**.
 
-## 9.1 From Footprint to Handprint
+## 9.1 Jalanjäljestä kädenjälkeen
 
-The concept of a *handprint* originates in sustainability research as a counterpart to the more familiar *footprint*. Where a footprint measures the environmental burden of an activity, including the resources consumed and the emissions generated, a handprint measures the environmental benefit it creates: the footprint that is avoided, reduced, or restored as a result of the activity (Biggs et al., 2020).
+*Kädenjäljen* käsite on peräisin kestävyystutkimuksesta vastakohdaksi tutummalle *jalanjäljelle*. Siinä missä jalanjälki mittaa toiminnan ympäristörasitusta — kulutettuja resursseja ja syntyviä päästöjä — kädenjälki mittaa sen luomaa ympäristöhyötyä: jalanjälkeä, joka vältetään, vähennetään tai palautetaan toiminnan seurauksena (Biggs et al., 2020).
 
-Applied to software, the distinction maps cleanly onto two separate questions:
+Ohjelmistoon sovellettuna jako hahmottuu selkeästi kahdeksi erilliseksi kysymykseksi:
 
-- **Footprint question**: How much energy does this software consume when it runs?
-- **Handprint question**: What environmental harm does this software prevent or reduce by functioning as intended?
+- **Jalanjälkikysymys**: Kuinka paljon energiaa tämä ohjelmisto kuluttaa toimiessaan?
+- **Kädenjälkikysymys**: Minkä ympäristöhaitan tämä ohjelmisto estää tai vähentää toimiessaan tarkoitetulla tavalla?
 
-These are independent. Software with a large footprint can have a large positive handprint, for example a computationally intensive route optimisation system that saves millions of litres of fuel annually. Software with a small footprint can have a negligible handprint, for example a well-optimised but functionally trivial application. And software can, in some cases, have a negative handprint, enabling activities or consumption patterns that increase total environmental harm.
+Nämä ovat toisistaan riippumattomia. Ohjelmistolla, jolla on suuri jalanjälki, voi olla suuri myönteinen kädenjälki — esimerkiksi laskennallisesti intensiivinen reittioptimaatiojärjestelmä, joka säästää miljoonia litroja polttoainetta vuosittain. Ohjelmistolla, jolla on pieni jalanjälki, voi olla merkityksetön kädenjälki — esimerkiksi hyvin optimoitu mutta toiminnallisesti triviaali sovellus. Ja ohjelmistolla voi joissain tapauksissa olla negatiivinen kädenjälki, kun se mahdollistaa toimintoja tai kulutuskuvioita, jotka lisäävät kokonaisympäristöhaittaa.
 
-Green coding practice addresses the footprint dimension. Understanding the handprint dimension requires asking a different and broader question: *what does this software make possible, and what is the environmental consequence of that?*
+Vihreän koodauksen käytäntö käsittelee jalanjälkiulottuvuutta. Kädenjälkiulottuvuuden ymmärtäminen vaatii erilaisen ja laajemman kysymyksen esittämistä: *mitä tämä ohjelmisto mahdollistaa, ja mikä on sen ympäristöseuraus?*
 
-## 9.2 How Software Creates Positive Environmental Impact
+## 9.2 Miten ohjelmisto luo myönteistä ympäristövaikutusta?
 
-Software creates environmental benefit through several distinct mechanisms. The following categories illustrate the range of impact, from substitution of physical processes to optimisation of physical systems.
+Ohjelmisto luo ympäristöhyötyä useiden eri mekanismien kautta. Seuraavat kategoriat havainnollistavat vaikutusten kirjoa fyysisten prosessien korvaamisesta fyysisten järjestelmien optimointiin.
 
-**Dematerialisation**
-Software can replace physical goods and services that require energy, materials, and logistics to produce and deliver. Digital documents replace printed ones. Video calls replace flights. Streaming media replaces physical discs and the supply chains that produce and distribute them. The environmental gain from dematerialisation is real but not automatic: it depends on whether the digital alternative is actually adopted in place of the physical one, rather than in addition to it (Hilty and Aebischer, 2015).
+**Dematerialisaatio**
+Ohjelmisto voi korvata fyysisiä tavaroita ja palveluita, joiden tuottaminen ja toimittaminen vaatii energiaa, materiaaleja ja logistiikkaa. Digitaaliset asiakirjat korvaavat tulostetut. Videoneuvottelut korvaavat lennot. Suoratoistomedia korvaa fyysiset levyt ja niiden tuottamiseen ja jakeluun tarvittavat toimitusketjut. Dematerialisaatiosta saatava ympäristöhyöty on todellinen, mutta ei automaattinen: se riippuu siitä, otetaanko digitaalinen vaihtoehto käyttöön fyysisen sijaan eikä sen lisäksi (Hilty and Aebischer, 2015).
 
-**Enabling remote work and distributed collaboration**
-Software platforms that support remote work reduce the need for daily commuting and business travel, both of which are significant sources of transport-related emissions. The environmental benefit depends on travel displacement actually occurring, and is offset to a degree by increased residential energy consumption and the energy cost of the collaboration software itself. The net effect is generally positive when long commutes or flights are replaced (Hook et al., 2020).
+**Etätyön ja hajautetun yhteistyön mahdollistaminen**
+Etätyötä tukevat ohjelmistoalustat vähentävät päivittäisen pendelöinnin ja työmatkustamisen tarvetta, jotka molemmat ovat merkittäviä liikenteen päästöjen lähteitä. Ympäristöhyöty riippuu siitä, tapahtuuko matkakorvaus todellisuudessa, ja sitä tasapainottaa jonkin verran lisääntynyt asumisenergiankäyttö ja yhteistyöohjelmiston oma energiakustannus. Nettovaikutus on yleensä myönteinen, kun pitkät työmatkasukkuloinnit tai lennot korvataan (Hook et al., 2020).
 
-**Optimising physical systems**
-Some of the largest handprint opportunities arise from software that makes physical infrastructure more efficient. Examples include:
-- *Smart building management systems* that dynamically adjust heating, cooling, and lighting based on occupancy and weather, reducing energy consumption in buildings, which account for a substantial share of global energy use.
-- *Intelligent transport systems* that optimise traffic flow, reduce idling, and improve public transport scheduling, lowering fuel consumption across vehicle fleets.
-- *Precision agriculture platforms* that use sensor data and modelling to apply water, fertiliser, and pesticides only where and when they are needed, reducing resource consumption and associated emissions.
-- *Grid management and demand response software* that integrates renewable energy sources, shifts flexible demand to periods of high renewable generation, and reduces curtailment of wind and solar power.
+**Fyysisten järjestelmien optimointi**
+Jotkut suurimmista kädenjälkimahdollisuuksista syntyvät ohjelmistosta, joka tekee fyysisestä infrastruktuurista tehokkaamman. Esimerkkejä ovat:
+- *Älykkäät rakennusten hallintajärjestelmät*, jotka säätävät dynaamisesti lämmitystä, jäähdytystä ja valaistusta käytön ja sään perusteella, vähentäen rakennusten energiankulutusta, joka kattaa huomattavan osan maailman energiankäytöstä.
+- *Älykkäät liikennejärjestelmät*, jotka optimoivat liikennevirtoja, vähentävät tyhjäkäyntiä ja parantavat joukkoliikenteen aikataulutusta, alentaen polttoaineen kulutusta ajoneuvokannassa.
+- *Täsmämaatalousplatformit*, jotka käyttävät anturidataa ja mallinnusta levittämään vettä, lannoitteita ja torjunta-aineita vain sinne ja silloin kuin niitä tarvitaan, vähentäen resurssien kulutusta ja siihen liittyviä päästöjä.
+- *Sähköverkon hallinta- ja kysyntäjoustoohjelmistot*, jotka integroivat uusiutuvia energianlähteitä, siirtävät joustavaa kysyntää uusiutuvan energian tuotannon huippuaikoihin ja vähentävät tuuli- ja aurinkovoiman leikkausta.
 
-**Enabling scientific and engineering progress**
-Software tools that accelerate research into clean energy, materials science, climate modelling, and low-carbon engineering can have handprint effects that compound over time. The environmental value of a simulation tool that reduces the cost of developing a more efficient battery chemistry, for example, cannot be captured in the software's own energy footprint; it emerges through the downstream applications of the research it enables.
+**Tieteellisen ja teknisen edistyksen mahdollistaminen**
+Ohjelmistotyökalut, jotka nopeuttavat puhtaan energian, materiaalitieteen, ilmastomallinuksen ja vähähiilisen insinöörityön tutkimusta, voivat tuottaa kädenjälkivaikutuksia, jotka kertautuvat ajan myötä. Simulaatiotyökalun ympäristöarvoa, joka alentaa tehokkaamman akkukemian kehittämiskustannuksia, ei voida tavoittaa ohjelmiston omassa energiajalanjäljessä; se ilmenee sen mahdollistaman tutkimuksen jatkovaikutusten kautta.
 
-## 9.3 Evaluating Handprint Claims
+## 9.3 Kädenjälkiväitteiden arviointi
 
-The handprint concept is valuable but easily misused. Because handprint effects are indirect and involve counterfactuals (what *would have happened* without the software), they are inherently more difficult to measure and verify than footprint effects. Several principles guide rigorous handprint evaluation.
+Kädenjäljen käsite on arvokas mutta helposti väärinkäytetty. Koska kädenjälkivaikutukset ovat välillisiä ja sisältävät kontrafaktuaaleja (mitä *olisi tapahtunut* ilman ohjelmistoa), ne ovat luonteeltaan vaikeampia mitata ja todentaa kuin jalanjälkivaikutukset. Useat periaatteet ohjaavat tiukkaa kädenjälkiarviointia.
 
-**Additionality**
-A genuine handprint requires that the environmental benefit would not have occurred without the software. If a route optimisation system is deployed in place of a system that was already performing adequate optimisation, the marginal benefit of the new system is the relevant handprint, not the total emissions avoided by any route optimisation whatsoever. Additionality is frequently overstated in sustainability reporting.
+**Additionaalisuus**
+Aito kädenjälki edellyttää, että ympäristöhyöty ei olisi toteutunut ilman ohjelmistoa. Jos reittioptimaatiojärjestelmä otetaan käyttöön korvaamaan järjestelmää, joka jo suoritti riittävää optimaatiota, uuden järjestelmän marginaalihyöty on relevantti kädenjälki, ei minkä tahansa reittioptimaation kokonaisvältettyjä päästöjä. Additionaalisuus on usein liioiteltu kestävyysraportoinnissa.
 
-**Rebound effects**
-Efficiency improvements enabled by software can trigger increases in the activity being made efficient, partially or fully offsetting the environmental gain. More efficient navigation reduces fuel consumption per trip, but cheaper, faster, or more convenient transport can increase the total number of trips. More efficient data compression reduces the energy cost per gigabyte, but lower cost per gigabyte increases total data consumption. These *rebound effects* must be considered when estimating net handprint.
+**Rebound-vaikutukset**
+Ohjelmiston mahdollistamat tehokkuusparannukset voivat käynnistää lisääntymistä tehokkuutta tekevässä toiminnassa, osittain tai kokonaan kumoamalla ympäristöhyödyn. Tehokkaampi navigointi vähentää polttoaineen kulutusta matkaa kohden, mutta halvempi, nopeampi tai kätevämpien liikennemahdollisuuksien seurauksena matkojen kokonaismäärä voi kasvaa. Tehokkaampi datanpakkaus vähentää energiakustannusta gigatavua kohden, mutta alhaisempi kustannus gigatavua kohden lisää kokonaisdatan kulutusta. Nämä *rebound-vaikutukset* on otettava huomioon arvioitaessa nettokädenjälkeä.
 
-**Counterfactual specificity**
-A handprint claim requires specifying what the alternative scenario is. "Software X reduces carbon emissions" is not a complete claim; it must be compared to a defined baseline. Is the alternative no software at all? An earlier version of the software? A manual process? A competitor's product? The magnitude of the handprint depends heavily on which counterfactual is chosen, and the choice should be explicit and justified.
+**Kontrafaktuaalinen tarkkuus**
+Kädenjälkiväite edellyttää sen määrittämistä, mikä vaihtoehtoinen skenaario on. "Ohjelmisto X vähentää hiilipäästöjä" ei ole täydellinen väite; se on verrattava määriteltyyn vertailutasoon. Onko vaihtoehto olla käyttämättä lainkaan ohjelmistoa? Vanhempi versio ohjelmistosta? Manuaalinen prosessi? Kilpailijan tuote? Kädenjäljen suuruus riippuu voimakkaasti siitä, mikä kontrafaktuaali valitaan, ja valinnan on oltava eksplisiittinen ja perusteltu.
 
-**Scope and time horizon**
-Handprint effects can operate over very different timescales. The fuel saved by a route optimisation system is realised immediately, while the effect of accelerating clean-energy research may take decades to materialise. Long time horizons increase uncertainty. Be explicit about the scope of the handprint claim: which effects are included, over what time period, and with what uncertainty.
+**Laajuus ja aikahorisontti**
+Kädenjälkivaikutukset voivat toimia hyvin erilaisilla aikaskaalavilla. Reittioptimaatiojärjestelmän säästämä polttoaine realisoituu välittömästi, kun taas puhtaan energian tutkimuksen nopeuttamisen vaikutus voi materialisoitua vuosikymmenten kuluessa. Pitkät aikahorisontit lisäävät epävarmuutta. Ole eksplisiittinen kädenjälkiväitteen laajuuden suhteen: mitkä vaikutukset sisällytetään, millä ajanjaksolla ja millä epävarmuudella.
 
-## 9.4 Net Impact and the Relationship Between Footprint and Handprint
+## 9.4 Nettovaikutus ja jalanjäljen ja kädenjäljen suhde
 
-For most software systems, the direct energy footprint is small relative to the functional value delivered. A well-designed smart thermostat system, for example, might consume a few kilowatt-hours per year in communication and computation while enabling heating and cooling savings of hundreds of kilowatt-hours per year in the buildings it manages. In such cases, the handprint substantially dominates the footprint, and the net environmental impact of the software is clearly positive.
+Useimmissa ohjelmistojärjestelmissä suora energiajalanjälki on pieni suhteessa toimitettuun toiminnalliseen arvoon. Hyvin suunniteltu älytermostaattijärjestelmä saattaa esimerkiksi kuluttaa muutaman kilowattitunnin vuodessa viestintään ja laskentaan mahdollistaessaan samalla lämmitys- ja jäähdytyssäästöjä sadoissa kilowattitunneissa vuodessa hallinnoimissaan rakennuksissa. Tällaisissa tapauksissa kädenjälki dominoi selvästi jalanjälkeä, ja ohjelmiston nettopäästövaikutus on selvästi myönteinen.
 
-However, this favourable ratio is not universal, and it should not be assumed. Software that consumes significant energy, such as large-scale data processing, continuous video streaming, or AI model training, can only claim a positive net impact if its handprint effects are real, additional, and large enough to outweigh its footprint. Claims to that effect should be held to the same standard of evidence as any other empirical claim.
+Tämä suotuisa suhde ei kuitenkaan ole universaali, eikä sitä pitäisi olettaa. Ohjelmisto, joka kuluttaa merkittävästi energiaa — kuten laajamittainen datankäsittely, jatkuva videosuoratoisto tai tekoälymallien koulutus — voi vaatia positiivista nettovaikutusta vain, jos sen kädenjälkivaikutukset ovat todellisia, additionaalisia ja riittävän suuria jalanjäljen kumoamiseen. Tähän suuntaan esitetyt väitteet tulisi pitää samaan todistushaarkan tasoon kuin mikä tahansa muu empiirinen väite.
 
-For software developers and architects, the practical implication is this: **reducing the footprint and understanding the handprint are complementary, not competing, concerns**. A system with a genuine positive handprint can maximise its net benefit by also minimising its operational footprint. The discipline of thinking rigorously about environmental impact, quantitatively, counterfactually, and with attention to rebound effects, is the same discipline whether it is applied to footprint or handprint.
+Ohjelmistokehittäjille ja arkkitehdeille käytännön implikaatio on tämä: **jalanjäljen vähentäminen ja kädenjäljen ymmärtäminen ovat toisiaan täydentäviä, eivät kilpailevia huolenaiheita**. Järjestelmä, jolla on aito myönteinen kädenjälki, voi maksimoida nettohyötynsä minimoimalla myös toiminnallisen jalanjälkensä. Ympäristövaikutusten tiukka, kvantitatiivinen, kontrafaktuaalinen ja rebound-vaikutukset huomioiva arviointikuri on sama kuri riippumatta siitä, sovelletaanko sitä jalanjälkeen vai kädenjälkeen.
 
 ---
 
-## References
+## Viitteet
 
 Biggs, R., de Vos, A., Preiser, R., Clements, H., Maciejewski, K. and Schlüter, M. (eds.) (2020) *The Routledge Handbook of Research Methods for Social-Ecological Systems*. Routledge.
 

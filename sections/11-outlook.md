@@ -1,26 +1,26 @@
 ---
-title: "Outlook"
+title: "Tulevaisuudennäkymät"
 nav_order: 11
 permalink: /outlook/
 ---
 
-# 11. Outlook and Future Directions
+# 11. Tulevaisuudennäkymät ja kehityssuunnat
 
-Green coding is an evolving discipline. The principles and practices described in this guide represent the current state of evidence-based understanding, but several important gaps remain, in tooling, education, organisational practice, and research, that will shape how the field develops.
+Vihreä koodaus on kehittyvä tieteenala. Tässä oppaassa kuvatut periaatteet ja käytännöt edustavat näyttöön perustuvan ymmärryksen nykytilaa, mutta useita merkittäviä puutteita on edelleen — työkaluissa, koulutuksessa, organisatorisessa käytännössä ja tutkimuksessa — ja ne tulevat muokkaamaan alan kehitystä.
 
-**Better measurement tooling.** Most existing energy profilers are designed for system-level or process-level analysis and lack integration with the tools developers use daily. Lightweight, workflow-integrated profiling that connects energy measurements to version control commits, containerised test environments, and visual dashboards is a direction actively under development. Prototype research has demonstrated the technical feasibility of commit-aware, reproducible API energy profiling on accessible hardware, with future work extending toward cloud-based CI/CD pipelines, multi-profiler orchestration, and carbon-intensity mapping (Joof et al., 2025; Joof, 2025).
+**Paremmat mittaustyökalut.** Useimmat olemassa olevat energiaprofiloijat on suunniteltu järjestelmätason tai prosessitason analyysiin, eikä niillä ole integraatiota kehittäjien päivittäin käyttämiin työkaluihin. Kevyt, työnkulkuihin integroitu profilointi, joka yhdistää energiamittaukset versionhallinnan committeihin, konteistettuihin testiympäristöihin ja visuaalisiin koontinäyttöihin, on aktiivisesti kehittymässä oleva suunta. Prototyypitutkimus on osoittanut commit-tietoisen, toistettavan API-energiaprofiloinnin teknisen toteutettavuuden saavutettavalla laitteistolla, ja jatkotyö tähtää pilvipohjaisiin CI/CD-putkistoihin, usean profiloijan orkestrointiin ja hiili-intensiteettikartoitukseen (Joof et al., 2025; Joof, 2025).
 
-**Education and skill development.** Developers are often unaware of how their design and implementation decisions affect energy consumption, not because they lack interest, but because energy has not been part of standard software engineering education or tooling feedback loops. Embedding energy awareness into curricula, code review practices, and IDE tooling is necessary for green coding to move from specialist practice to engineering norm.
+**Koulutus ja osaamisen kehittäminen.** Kehittäjät eivät usein tiedosta, miten heidän suunnittelu- ja toteutuspäätöksensä vaikuttavat energiankulutukseen — ei siksi, että kiinnostusta puuttuisi, vaan koska energia ei ole kuulunut osaksi tavanomaista ohjelmistotekniikan koulutusta tai työkalujen palautesilmukoita. Energiatietoisuuden upottaminen opetussuunnitelmiin, koodikatselmoinnin käytäntöihin ja IDE-työkaluihin on välttämätöntä, jotta vihreä koodaus siirtyisi erityisasiantuntijoiden käytännöstä yleiseksi insinöörityön normiksi.
 
-**Organisational alignment.** Technical tools are only effective when organisations treat energy efficiency as a first-class quality concern, alongside performance, reliability, and maintainability. This requires defined sustainability goals, supported by metrics and integrated into project planning, not treated as optional or post-hoc.
+**Organisatorinen yhtenäistäminen.** Tekniset työkalut ovat tehokkaita vain silloin, kun organisaatiot kohtelevat energiatehokkuutta ensisijaisena laatutekijänä — suorituskyvyn, luotettavuuden ja ylläpidettävyyden rinnalla. Tämä edellyttää määriteltyjä kestävyystavoitteita, joita tukevat mittarit ja jotka on integroitu projektisuunnitteluun eikä kohdeltu valinnaisina tai jälkikäteisinä.
 
-**Research-industry collaboration.** The most significant open questions in green coding, including how to measure energy attributably in distributed and cloud-native systems, how to reason about system-wide trade-offs, and how to validate the long-term effectiveness of green coding practices at scale, require sustained collaboration between researchers and practitioners. Initiatives that ground research in real development environments and produce artefacts that practitioners can adopt are essential to closing the gap between academic findings and applied practice.
+**Tutkimus–teollisuus-yhteistyö.** Vihreän koodauksen merkittävimmät avoimet kysymykset — mukaan lukien se, miten energiaa voidaan mitata kohdistettavasti hajautetuissa ja pilvinatiiveissa järjestelmissä, miten koko järjestelmän laajuisista kompromisseista voidaan päätellä, ja miten vihreän koodauksen käytäntöjen pitkäaikainen tehokkuus voidaan validoida suuressa mittakaavassa — edellyttävät jatkuvaa yhteistyötä tutkijoiden ja käytännön ammattilaisten välillä. Aloitteet, jotka ankkuroivat tutkimuksen todellisiin kehitysympäristöihin ja tuottavat artefakteja, joita ammattilaiset voivat omaksua, ovat välttämättömiä akateemisten löydösten ja soveltavan käytännön välisen kuilun umpeen kuromiseksi.
 
-By treating energy footprint as a first-class software quality attribute, green coding enables better decisions, not perfection, but continuous improvement grounded in evidence. The tools, practices, and organisational conditions needed to sustain that improvement are within reach, and this guide is intended as a contribution toward them.
+Kohtelemalla energiajälkeä ensisijaisena ohjelmiston laatuattribuuttina vihreä koodaus mahdollistaa paremmat päätökset — ei täydellisyyttä, vaan jatkuvaa näyttöön perustuvaa parantamista. Tarvittavat työkalut, käytännöt ja organisatoriset olosuhteet tämän parantamisen ylläpitämiseksi ovat saavutettavissa, ja tämä opas on tarkoitettu panokseksi niiden kehittämiseen.
 
 ---
 
-## References
+## Viitteet
 
 Joof, M.B. (2025) *Green Coding in Practice: A Software Framework for API Energy Efficiency Measurement and Feedback*. Master's thesis. Lappeenranta–Lahti University of Technology LUT.
 

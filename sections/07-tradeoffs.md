@@ -1,52 +1,52 @@
 ---
-title: "Trade-offs and Limitations"
+title: "Kompromissit ja rajoitukset"
 nav_order: 7
 permalink: /tradeoffs/
 ---
 
-# 7. Trade-offs, Limitations, and Design Tensions
+# 7. Kompromissit, rajoitukset ja suunnittelujännitteet
 
-Green coding involves balancing energy footprint against other software quality attributes. The tensions described here are real, and they cannot be resolved by rule of thumb alone. Each requires empirical evaluation in context.
+Vihreä koodaus edellyttää energiajäljen tasapainottamista suhteessa muihin ohjelmiston laatuominaisuuksiin. Tässä kuvatut jännitteet ovat todellisia, eikä niitä voida ratkaista pelkillä nyrkkisäännöillä. Jokainen niistä vaatii empiiristä arviointia kussakin asiayhteydessä.
 
-## 7.1 CPU vs. Memory
+## 7.1 CPU vs. muisti
 
-Reducing CPU work often increases memory usage. Precomputing and caching results, for example, avoids repeated calculation at the cost of heap space. The net energy impact depends on the access pattern: memory is relatively cheap to *hold*, but expensive to *allocate, copy, and garbage-collect* at high rates.
+CPU-työn vähentäminen lisää usein muistinkäyttöä. Tulosten ennakkolaskenta ja välimuistiin tallentaminen esimerkiksi välttää toistuvan laskennan heap-tilan kustannuksella. Nettovaikutus energiankulutukseen riippuu käyttömallista: muistia on suhteellisen edullista *pitää varattuna*, mutta kallista *allokoida, kopioida ja kerätä roskana* suurella tahdilla.
 
-**Decision heuristic:** Prefer the memory-intensive option when data is accessed repeatedly within a bounded time window and the cache hit rate is demonstrably high. Prefer the compute-intensive option when access is infrequent, data volume makes caching uneconomical, or GC pressure from cached objects outweighs computation savings. Measure both approaches under a representative workload before deciding.
+**Päätösheuristiikka:** Suosi muisti-intensiivistä vaihtoehtoa, kun dataan viitataan toistuvasti rajatun aikajakson sisällä ja välimuistin osumataajuus on osoitetusti korkea. Suosi laskenta-intensiivistä vaihtoehtoa, kun viittaukset ovat harvoja, datan volyymi tekee välimuistiin tallentamisesta epätaloudellista tai välimuistissa olevien objektien aiheuttama GC-paine ylittää laskennan säästöt. Mittaa molemmat lähestymistavat edustavan kuorman alla ennen päätöksentekoa.
 
-## 7.2 Network vs. Computation
+## 7.2 Verkko vs. laskenta
 
-Reducing data transfer can require additional computation, for example compressing a payload before sending it or pre-aggregating data server-side instead of transferring raw records. Conversely, skipping computation to send data faster keeps the network active longer and may increase device-side processing costs.
+Tiedonsiirron vähentäminen voi vaatia lisälaskentaa — esimerkiksi hyötykuorman pakkaamista ennen lähetystä tai datan esikoostamista palvelinpuolella raakatietueiden siirtämisen sijaan. Toisaalta laskennan ohittaminen datan nopeampaa lähettämistä varten pitää verkon aktiivisena kauemmin ja voi lisätä laitteen puoleisia käsittelykustannuksia.
 
-**Decision heuristic:** When user-perceived latency is not the binding constraint, prefer to reduce transfer volume. When latency is critical, benchmark whether the energy cost of additional processing (compression, aggregation) is recovered by reduced transmission time. Note that network energy costs vary substantially between wired, Wi-Fi, and mobile radio contexts. This trade-off has been observed empirically in API-level profiling: adding GZIP compression to API responses reduced network payload but increased CPU load relative to an in-memory caching variant, resulting in higher power consumption (250 mW vs 240 mW) despite smaller transfer sizes, illustrating that compression is not unconditionally beneficial (Joof et al., 2025; Joof, 2025).
+**Päätösheuristiikka:** Kun käyttäjän kokema viive ei ole rajoittava tekijä, suosi siirrettävän datamäärän vähentämistä. Kun viive on kriittinen, vertaile, palautuuko lisäkäsittelyn (pakkaus, koostaminen) energiakustannus lyhentyneen lähetysajan kautta. Huomaa, että verkon energiakustannukset vaihtelevat merkittävästi langallisen, Wi-Fi- ja mobiiliradioympäristöjen välillä. Tämä kompromissi on havaittu empiirisesti API-tason profiloinnissa: GZIP-pakkauksen lisääminen API-vastauksiin pienensi verkon hyötykuormaa mutta kasvatti CPU-kuormaa verrattuna välimuistiratkaisuun, mikä johti korkeampaan tehonkulutukseen (250 mW vs. 240 mW) siirtokoon pienenemisestä huolimatta — tämä osoittaa, ettei pakkaaminen ole ehdottomasti hyödyllistä (Joof et al., 2025; Joof, 2025).
 
-## 7.3 Efficiency vs. Maintainability
+## 7.3 Tehokkuus vs. ylläpidettävyys
 
-Highly optimised code is often harder to understand, test, and change. An energy optimisation that couples components tightly, removes useful abstractions, or relies on undocumented hardware behaviour may reduce energy footprint now while increasing it later through defects and rework.
+Voimakkaasti optimoitu koodi on usein vaikeampi ymmärtää, testata ja muuttaa. Energiaoptimointi, joka kytkee komponentit tiukasti yhteen, poistaa hyödyllisiä abstraktioita tai nojaa dokumentoimattomaan laitteistokäyttäytymiseen, voi pienentää energiajälkeä nyt mutta kasvattaa sitä myöhemmin vikojen ja uudelleentyöstämisen kautta.
 
-**Decision heuristic:** Apply energy-motivated optimisations that do not materially increase code complexity first. When a more invasive optimisation is necessary, document the performance characteristic being preserved, isolate the optimised code behind a well-defined interface, and add benchmarks that will surface regressions if the optimisation is later removed or bypassed.
+**Päätösheuristiikka:** Sovella ensin energiaperusteisia optimointeja, jotka eivät merkittävästi lisää koodin monimutkaisuutta. Kun invasiivisempi optimointi on välttämätön, dokumentoi säilytettävä suorituskykyominaisuus, eristä optimoitu koodi selkeärajaiseen rajapintaan ja lisää vertailutestit, jotka paljastavat regressiot, jos optimointi poistetaan tai ohitetaan myöhemmin.
 
-## 7.4 Local vs. System-Wide Effects
+## 7.4 Paikalliset vs. järjestelmänlaajuiset vaikutukset
 
-Optimising a single component in isolation can shift energy consumption elsewhere in the system rather than eliminating it. A faster client-side operation may generate more server requests. A more efficient database query may increase application-layer processing. A reduced network payload may require more CPU to reconstruct on the receiving end.
+Yksittäisen komponentin optimointi eristyksissä voi siirtää energiankulutusta muualle järjestelmässä sen sijaan, että se poistaisi kulutuksen kokonaan. Nopeampi asiakaspuolen operaatio voi tuottaa enemmän palvelinpyyntöjä. Tehokkaampi tietokantakysely voi lisätä sovelluskerroksen käsittelyä. Pienennetty verkon hyötykuorma voi vaatia enemmän CPU:ta vastaanottavalla päällä.
 
-**Decision heuristic:** Before optimising a component, trace the data flow through the system to identify downstream effects. Prioritise optimisations that reduce total system energy, not just local metrics. When system-wide measurement is impractical, at minimum verify that the upstream and downstream components are not adversely loaded by the change.
+**Päätösheuristiikka:** Jäljitä ennen komponentin optimointia tietovuo järjestelmän läpi alaspäin suuntautuvien vaikutusten tunnistamiseksi. Priorisoi optimointeja, jotka vähentävät koko järjestelmän energiankulutusta, eivät vain paikallisia mittareita. Kun järjestelmänlaajuinen mittaus ei ole käytännöllistä, varmista vähintään, etteivät ylä- ja alajuoksun komponentit kuormitu haitallisesti muutoksen seurauksena.
 
-## 7.5 Measurement Uncertainty
+## 7.5 Mittausepävarmuus
 
-Energy measurement has inherent limitations. Software-accessible counters (such as Intel RAPL) measure processor and DRAM subsystems but exclude storage, network, and peripheral devices. Cloud and virtualised environments often do not expose hardware energy counters at all. Results vary with CPU frequency scaling, thermal throttling, background load, and measurement granularity.
+Energianmittaukseen liittyy luontaisia rajoituksia. Ohjelmistosta luettavat laskurit (kuten Intel RAPL) mittaavat prosessori- ja DRAM-alijärjestelmiä, mutta jättävät ulkopuolelle tallennusmedian, verkon ja oheislaitteet. Pilvi- ja virtualisointiympäristöt eivät usein tarjoa lainkaan pääsyä laitteiston energialaskureihin. Tulokset vaihtelevat CPU-taajuudensäädön, lämpörajoittamisen, taustakuorman ja mittaustarkkuuden mukaan.
 
-**Decision heuristic:** Report relative improvements between a baseline and a candidate under identical conditions, rather than absolute energy values. Repeat measurements across multiple runs and, where possible, across different hardware configurations before drawing conclusions. State measurement conditions explicitly: the tool used, the system state, the workload, and the number of repetitions. Treat a result as preliminary until it has been validated in a representative deployment environment.
+**Päätösheuristiikka:** Raportoi suhteelliset parannukset lähtötason ja ehdokkaan välillä identtisissä olosuhteissa absoluuttisten energiaarvojen sijaan. Toista mittaukset useilla ajoilla ja mahdollisuuksien mukaan eri laitteistokokoonpanoilla ennen johtopäätösten tekemistä. Ilmoita mittausolosuhteet eksplisiittisesti: käytetty työkalu, järjestelmän tila, kuorma ja toistojen lukumäärä. Pidä tulosta alustavana, kunnes se on validoitu edustavan tuotantoympäristön olosuhteissa.
 
-## 7.6 Diminishing Returns
+## 7.6 Vähenevät tuotot
 
-Beyond eliminating major inefficiencies such as redundant computation, unnecessary data transfer, and idle resource holding, additional optimisation yields progressively smaller energy savings at increasing implementation cost. The first 20% of optimisation effort often accounts for 80% of the achievable improvement.
+Kun merkittävimmät tehottomuudet — kuten turha laskenta, tarpeeton tiedonsiirto ja resurssien joutokäynti — on poistettu, lisäoptimointi tuottaa asteittain pienempiä energiasäästöjä kasvavilla toteutuskustannuksilla. Ensimmäinen 20 % optimointipanostuksesta kattaa usein 80 % saavutettavissa olevasta parannuksesta.
 
-**Decision heuristic:** Prioritise interventions by estimated energy impact per unit of implementation effort. Use profiling to identify the dominant contributors to energy footprint before investing in optimisation. Stop optimising a component when further improvements require disproportionate complexity or risk, and redirect effort toward higher-impact areas identified by measurement.
+**Päätösheuristiikka:** Priorisoi toimenpiteet arvioidun energiavaikutuksen mukaan suhteessa toteutusvaivaan. Käytä profilointia energiajäljen pääasiallisten tekijöiden tunnistamiseen ennen optimointiin panostamista. Lopeta komponentin optimointi, kun lisäparannukset edellyttävät kohtuutonta monimutkaisuutta tai riskiä, ja suuntaa panostus mittauksen perusteella tunnistettuihin suuremman vaikutuksen alueisiin.
 
 ---
 
-## References
+## Lähteet
 
 Joof, M.B. (2025) *Green Coding in Practice: A Software Framework for API Energy Efficiency Measurement and Feedback*. Master's thesis. Lappeenranta–Lahti University of Technology LUT.
 

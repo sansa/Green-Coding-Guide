@@ -1,71 +1,71 @@
 ---
-title: "Workflow Integration"
+title: "Työnkulun integrointi"
 nav_order: 6
 permalink: /workflows/
 ---
 
-# 6. Integrating Green Coding into Development Workflows
+# 6. Vihreän koodauksen integroiminen kehitystyönkulkuihin
 
-Green coding must fit existing workflows to be sustainable as a practice. Principles and domain-specific knowledge are only useful if they reach developers at the moment they make decisions: during implementation, review, and deployment, not as a retrospective audit. This section describes how energy awareness can be embedded into the stages of a typical development workflow.
+Vihreä koodaus on kestävä käytäntö vain silloin, kun se sopii olemassa oleviin työnkulkuihin. Periaatteet ja alakohtainen tieto ovat hyödyllisiä ainoastaan, jos ne tavoittavat kehittäjät juuri sillä hetkellä, kun päätöksiä tehdään: toteutuksen, katselmoinnin ja käyttöönoton aikana – ei jälkikäteen tehtävän auditoinnin muodossa. Tässä osiossa kuvataan, miten energiatietoisuus voidaan sisällyttää tyypillisen kehitystyönkulun eri vaiheisiin.
 
-Research into workflow-integrated energy profiling confirms that tools and processes which connect energy metrics to version control, continuous integration, and visual dashboards are both technically feasible and meaningfully adopted by developers, provided they require minimal setup effort and operate within tools developers already use (Joof et al., 2025).
+Työnkulkuun integroitua energiaprofilointia koskeva tutkimus vahvistaa, että työkalut ja prosessit, jotka yhdistävät energiamittarit versionhallintaan, jatkuvaan integraatioon ja visuaalisiin koontinäyttöihin, ovat sekä teknisesti toteutettavissa että kehittäjien hyväksymiä – edellyttäen, että ne vaativat mahdollisimman vähän käyttöönottotoimia ja toimivat kehittäjien jo käyttämissä välineissä (Joof et al., 2025).
 
-## 6.1 Local Development
+## 6.1 Paikallinen kehitys
 
-The cheapest place to identify an energy inefficiency is during local development, before code is reviewed, merged, or deployed. Profiling a change in isolation, comparing the energy or resource footprint of a new implementation against the previous version on representative test inputs, enables rapid experimentation with low overhead.
+Edullisin kohta energiatehottomuuden tunnistamiselle on paikallinen kehitys – ennen kuin koodi katselmoidaan, yhdistetään tai otetaan käyttöön. Muutoksen profilointi eristettynä, eli uuden toteutuksen energia- tai resurssijäljen vertaaminen edelliseen versioon edustavilla testisyötteillä, mahdollistaa nopean kokeilun vähäisellä lisäkuormalla.
 
-Lightweight profiling approaches that wrap existing tools such as PowerJoular in containerised, reproducible execution environments have demonstrated that per-request energy metrics (CPU usage, memory, power draw, response time) can be captured on accessible hardware such as a Raspberry Pi without requiring specialist instrumentation or privileged cloud access (Joof, 2025). This makes meaningful energy feedback practical at the individual developer level, not just in dedicated performance engineering teams.
+Kevyet profilointimenetelmät, jotka käärivät olemassa olevia työkaluja kuten PowerJoular kontainerisoiduiksi, toistettaviksi suoritusympäristöiksi, ovat osoittaneet, että pyyntökohtaiset energiamittarit (CPU-käyttö, muisti, virrankulutus, vasteaika) voidaan kerätä helposti saatavilla olevalla laitteistolla kuten Raspberry Pi ilman erikoisinstrumentointia tai etuoikeutettua pilvipalvelupääsyä (Joof, 2025). Tämä tekee merkityksellisestä energiapalautteesta käytännöllisen yksittäisen kehittäjän tasolla – ei pelkästään erikoistuneissa suorituskykytekniikan tiimeissä.
 
-The key discipline is establishing a baseline before optimising. A baseline measurement under a representative workload provides the comparison point against which any change can be evaluated. Without it, improvements cannot be verified and regressions cannot be detected.
+Keskeinen kurinalaisuuden muoto on lähtötason määrittäminen ennen optimointia. Lähtötason mittaus edustavalla kuormituksella tarjoaa vertailukohdan, johon kaikkia muutoksia voidaan verrata. Ilman sitä parannuksia ei voida varmistaa eikä regressioita havaita.
 
-## 6.2 Code Reviews
+## 6.2 Koodikatselmoinnit
 
-Code review is a natural point for energy-aware questions that promote shared responsibility without adding rigid gates. Reviewers do not need to be energy measurement specialists; they need a shared vocabulary and a set of prompts that surface potential inefficiencies before they are merged.
+Koodikatselmointi on luonteva piste energiatietoisille kysymyksille, jotka edistävät yhteistä vastuuta lisäämättä jäykkiä porttikohtia. Katselmoijien ei tarvitse olla energiamittauksen asiantuntijoita; heillä on oltava yhteinen sanasto ja joukko kehotteita, jotka tuovat esiin mahdolliset tehottomuudet ennen niiden yhdistämistä.
 
-Useful questions to introduce into review culture include:
-- Does this change introduce any new computation on every request, or does it avoid work that previously happened unnecessarily?
-- Has the data access pattern changed in a way that might increase query volume or payload size?
-- If a cache is being added, is its size bounded and its hit rate expected to justify the memory cost?
-- Does this change affect how often background processes run, or how long they hold resources?
+Hyödyllisiä kysymyksiä katselmointikulttuuriin sisällytettäväksi:
+- Tuovatko nämä muutokset uusia laskutoimituksia jokaiselle pyynnolle, vai välttävätkö ne työn, jota aiemmin tehtiin tarpeettomasti?
+- Onko tietojen käyttömalli muuttunut tavalla, joka saattaa kasvattaa kyselymäärää tai hyötykuorman kokoa?
+- Jos välimuisti lisätään, onko sen koko rajattu ja onko osumataajuuden odotettu perustelevan muistikustannukset?
+- Vaikuttaako tämä muutos taustaprosessien suoritustiheyteen tai resurssien hallinta-aikaan?
 
-These questions do not require profiling data to be useful; they build energy intuition in the team over time and surface issues that measurement can then confirm or rule out.
+Nämä kysymykset ovat hyödyllisiä ilman profilointidataakin; ne rakentavat tiimin energiaintuition ajan myötä ja tuovat esiin ongelmia, joita mittaukset voivat sitten vahvistaa tai poissulkea.
 
-## 6.3 Version-Aware Tracking
+## 6.3 Versiota seurava seuranta
 
-Linking energy footprint data to specific code versions (commits, branches, or releases) enables trend analysis and regression detection that point-in-time profiling cannot provide. A single measurement tells you the current state; version-aware tracking tells you whether the system is improving, degrading, or stable across the development history.
+Energiajäljän tietojen yhdistäminen tiettyihin koodiversion (commitit, haarat tai julkaisut) mahdollistaa trendianalyysin ja regressiotunnistuksen, joita pisteytetty profilointi ei pysty tarjoamaan. Yksittäinen mittaus kertoo nykyisen tilan; versiotietoinen seuranta kertoo, parantuuko, heikkeneekö vai pysyykö järjestelmä vakaana kehityshistorian aikana.
 
-Prototype systems that tag energy measurements with Git commit identifiers and store them in a queryable database have demonstrated that commit-level energy comparison is practical and developer-friendly. Developers can observe the energy impact of a specific optimisation (e.g., introducing caching), confirm that it persists across subsequent commits, and identify the commit at which a regression was introduced, in the same way they currently track test failures or build times (Joof et al., 2025; Joof, 2025).
+Prototyyppijärjestelmät, jotka merkitsevät energiamittaukset Git-commit-tunnisteilla ja tallentavat ne kyselyitä tukevaan tietokantaan, ovat osoittaneet, että commit-tason energiavertailu on käytännöllistä ja kehittäjäystävällistä. Kehittäjät voivat tarkkailla tietyn optimoinnin (esim. välimuistin käyttöönoton) energiavaikutusta, vahvistaa sen pysyvyyden peräkkäisissä commiteissa ja tunnistaa commitin, jossa regressio otettiin käyttöön – samalla tavalla kuin he nyt seuraavat testivirheitä tai käännösaikoja (Joof et al., 2025; Joof, 2025).
 
-This approach treats energy efficiency as a measurable, version-controlled software quality attribute rather than a property that is evaluated informally or not at all.
+Tämä lähestymistapa kohtelee energiatehokkuutta mitattavana, versioituna ohjelmiston laadullisena ominaisuutena sen sijaan, että se arvioitaisiin epävirallisesti tai jätettäisiin kokonaan arvioimatta.
 
-## 6.4 CI/CD Integration
+## 6.4 CI/CD-integraatio
 
-Continuous integration and deployment pipelines are the most scalable point for energy feedback, because they run automatically on every change without requiring developer action. Integrating energy profiling into CI pipelines, triggering a standardised workload execution and collecting energy metrics on each push or pull request, extends the version-aware tracking concept into the automated build process.
+Jatkuvan integraation ja käyttöönoton putkilinjat ovat skaalautuvuuden kannalta paras piste energiapalautteelle, koska ne suoritetaan automaattisesti jokaisen muutoksen yhteydessä ilman kehittäjän toimia. Energiaprofiloinnin integrointi CI-putkilinjoihin – standardoidun kuormituksen suorittaminen ja energiamittareiden kerääminen jokaisen push- tai pull request -tapahtuman yhteydessä – laajentaa versiotietoisen seurannan käsitteen automatisoidun rakentamisprosessin osaksi.
 
-Webhook-triggered profiling, where a Git push event automatically deploys the API under test in a containerised environment and executes a predefined workload, has been validated as a practical architecture for this purpose. In a prototype evaluation, the full pipeline from commit to dashboard update completed in under 30 minutes, including container build, workload execution, and data aggregation (Joof et al., 2025).
+Webhook-käynnistetty profilointi, jossa Git push -tapahtuma automaattisesti ottaa testattavan API:n käyttöön kontainerisoidussa ympäristössä ja suorittaa ennalta määritellyn kuormituksen, on validoitu käytännölliseksi arkkitehtuuriksi tähän tarkoitukseen. Prototyypin arvioinnissa koko putkilinja commitista koontinäytön päivitykseen valmistui alle 30 minuutissa, mukaan lukien konttien rakentaminen, kuormituksen suoritus ja datan koostaminen (Joof et al., 2025).
 
-Automated energy feedback in CI should be designed carefully:
-- **Informational first:** Surface energy metrics as a report alongside test results, before introducing automated failures for energy regressions. Teams need time to develop intuition for what constitutes a meaningful change before energy gates become useful.
-- **Selective scope:** Profile the endpoints or components most likely to be affected by a change, rather than running a full workload benchmark on every commit.
-- **Context-aware thresholds:** Regressions should be flagged relative to a rolling baseline, not a fixed absolute limit, to account for variation in workload and hardware state.
+Automaattinen energiapalaute CI:ssä tulisi suunnitella huolellisesti:
+- **Tiedottaminen ensin:** Esitä energiamittarit raporttina testitulosten rinnalla ennen automaattisten virheiden käyttöönottoa energiaregressioille. Tiimit tarvitsevat aikaa kehittääkseen intuitiota siitä, mikä muutos on merkityksellinen, ennen kuin energiaportit ovat hyödyllisiä.
+- **Valikoiva laajuus:** Profiloi päätepisteet tai komponentit, joihin muutos todennäköisimmin vaikuttaa, sen sijaan että ajettaisiin täysi kuormitustesti jokaisella commitilla.
+- **Kontekstitietoiset kynnysarvot:** Regressiot tulisi merkitä suhteessa liukuvaan lähtötasoon, ei kiinteään absoluuttiseen rajaan, jotta huomioidaan kuormituksen ja laitteiston tilan vaihtelu.
 
-## 6.5 Visualization and Communication
+## 6.5 Visualisointi ja viestintä
 
-Raw energy measurements (power readings, CPU percentages, joules per request) are not immediately interpretable by most developers. Effective visualisation translates these numbers into forms that support decisions: trend lines that show whether energy footprint is improving across commits, bar charts that compare design variants side by side, and colour-coded indicators (e.g., red/yellow/green) that communicate regression or improvement at a glance.
+Raakaenergianmittaukset (teholukemat, CPU-prosenttiosuudet, joulet per pyyntö) eivät ole useimpien kehittäjien suoraan tulkittavissa. Tehokas visualisointi kääntää nämä luvut päätöksiä tukevaan muotoon: trendiviivat, jotka osoittavat parantuuko energiajälki commitien välillä, palkkikaaviot, jotka vertailevat suunnitteluvaihtoehtoja rinnakkain, ja värikoodatut indikaattorit (esim. punainen/keltainen/vihreä), jotka viestivät regressiosta tai parannuksesta silmäyksellä.
 
-Developer feedback from prototype evaluations consistently confirms that visual representations of energy data significantly increase comprehension and willingness to act on the information. A dashboard view that shows how introducing caching reduced both CPU usage and power draw across successive commits "made energy data understandable" in a way that raw log output did not (Joof et al., 2025). Visualisations also support communication with stakeholders who are not directly involved in implementation, making the energy impact of engineering decisions legible to product owners, architects, and sustainability-focused leadership.
+Kehittäjien palaute prototyypin arvioinneista vahvistaa johdonmukaisesti, että energiadatan visuaaliset esitykset lisäävät merkittävästi ymmärrystä ja halukkuutta toimia tiedon perusteella. Koontinäkymä, joka osoittaa, kuinka välimuistin käyttöönotto vähensi sekä CPU-käyttöä että virrankulutusta peräkkäisten commitien välillä, "teki energiadatasta ymmärrettävää" tavalla, jota raakalokituloste ei mahdollistanut (Joof et al., 2025). Visualisoinnit tukevat myös viestintää sidosryhmien kanssa, jotka eivät ole suoraan osallisina toteutuksessa, tehden teknisten päätösten energiavaikutukset luettaviksi tuoteomistajille, arkkitehdeille ja kestävyyssuuntautuneelle johdolle.
 
-Effective energy dashboards include: per-endpoint resource breakdowns, commit-by-commit trend charts, branch comparison views for evaluating design alternatives, and total energy consumed per test run to support longer-term reporting.
+Tehokkaat energiakoontinäytöt sisältävät: päätepisteykohtaiset resurssierittelyn, commit-kohtaiset trendikuvaajat, haaravertailunäkymät suunnitteluvaihtoehtojen arviointiin sekä testiajoa kohden kulutetun kokonaisenergian pitkäaikaisempaa raportointia varten.
 
-## 6.6 Organizational Adoption
+## 6.6 Organisatorinen käyttöönotto
 
-Technical tooling is necessary but not sufficient. Green coding becomes a sustained practice when it has cultural and organisational support: when team leads treat energy as a first-class quality concern, when developers have access to training on what the metrics mean and how to act on them, and when sustainability goals are reflected in how projects are scoped and evaluated.
+Tekniset työkalut ovat välttämättömiä mutta eivät riittäviä. Vihreä koodaus muuttuu kestäväksi käytännöksi, kun sillä on kulttuurinen ja organisatorinen tuki: kun tiiminvetäjät kohtelevat energiaa ensisijaisena laadullisena huolenaiheena, kun kehittäjillä on pääsy koulutukseen siitä, mitä mittarit tarkoittavat ja miten niihin tulee reagoida, sekä kun kestävyystavoitteet heijastuvat siihen, miten projekteja rajataan ja arvioidaan.
 
-Research confirms that developers who are personally motivated to reduce energy consumption are often unable to act effectively without institutional support: tools, metrics, management backing, and defined goals (Joof, 2025). Organisations that want to embed green coding practices should therefore invest in all three: tooling that makes energy visible, education that builds intuition, and organisational alignment that treats energy efficiency as a shared engineering responsibility rather than an individual concern.
+Tutkimus vahvistaa, että kehittäjät, joilla on henkilökohtainen motivaatio vähentää energiankulutusta, eivät usein pysty toimimaan tehokkaasti ilman institutionaalista tukea: työkaluja, mittareita, johdon tukea ja määriteltyjä tavoitteita (Joof, 2025). Organisaatioiden, jotka haluavat juurruttaa vihreän koodauksen käytäntöjä, tulisi siksi investoida kaikkiin kolmeen: työkaluihin, jotka tekevät energiasta näkyvän, koulutukseen, joka rakentaa intuitiota, sekä organisatoriseen yhdenmukaistamiseen, joka kohtelee energiatehokkuutta yhteisena insinöörityövastuuna eikä yksilöllisenä huolenaiheena.
 
 ---
 
-## References
+## Viitteet
 
 Joof, M.B. (2025) *Green Coding in Practice: A Software Framework for API Energy Efficiency Measurement and Feedback*. Master's thesis. Lappeenranta–Lahti University of Technology LUT.
 

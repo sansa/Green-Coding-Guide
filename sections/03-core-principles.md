@@ -1,56 +1,56 @@
 ---
-title: "Core Principles"
+title: "Keskeiset periaatteet"
 nav_order: 3
 permalink: /core-principles/
 ---
 
-# 3. Core Principles of Green Coding
+# 3. Vihreän koodauksen keskeiset periaatteet
 
-The following principles provide a technology-agnostic foundation for reducing the runtime energy footprint of software systems. They apply across domains and abstraction levels, from individual functions to distributed architectures. Domain-specific practices that implement these principles are described in [Section 4](/domain-practices/).
+Seuraavat periaatteet muodostavat teknologiariippumattoman perustan ohjelmistojärjestelmien suorituksenaikaisen energiajäljen pienentämiselle. Ne soveltuvat kaikille aloille ja abstraktiotasoille yksittäisistä funktioista hajautettuihin arkkitehtuureihin. Näitä periaatteita toteuttavat toimialakohtaiset käytännöt on kuvattu [luvussa 4](/domain-practices/).
 
-## 3.1 Avoid Unnecessary Work
+## 3.1 Vältä tarpeetonta työtä
 
-The most effective way to reduce energy consumption is to avoid computation, data processing, and communication that provide no functional value. This includes logic that executes on every request but only matters in rare cases, data that is fetched but never used, and operations triggered by events that do not require them.
+Tehokkain tapa vähentää energiankulutusta on välttää laskentaa, tietojenkäsittelyä ja viestintää, joilla ei ole toiminnallista arvoa. Tähän kuuluvat mm. logiikka, joka suoritetaan jokaisen pyynnön yhteydessä mutta on merkityksellinen vain harvoin, data, joka haetaan mutta jota ei koskaan käytetä, sekä operaatiot, jotka käynnistyvät tapahtumista, jotka eivät niitä edellytä.
 
-Unnecessary work is often invisible because it is spread across many small operations, each of which appears harmless in isolation. The cumulative effect across many users, requests, or devices can be substantial. Identifying it requires profiling rather than inspection, because the most expensive code is rarely the most obvious.
+Tarpeeton työ on usein näkymätöntä, koska se jakautuu moniin pieniin operaatioihin, joista kukin vaikuttaa yksittäin harmittomalta. Kumulatiivinen vaikutus useiden käyttäjien, pyyntöjen tai laitteiden välillä voi kuitenkin olla huomattava. Sen tunnistaminen edellyttää profilointia pelkän tarkastelun sijaan, sillä kallein koodi ei ole harvoin ilmeisin.
 
-This principle also applies at the architectural level. Processing that could be avoided through better system design, such as repeatedly re-deriving the same result from a database, represents unnecessary work regardless of how efficiently that work is performed.
+Tämä periaate koskee myös arkkitehtuuritasoa. Käsittely, jota voitaisiin välttää paremmalla järjestelmäsuunnittelulla — kuten saman tuloksen toistuvalla uudelleenlaskemisella tietokannasta — edustaa tarpeetonta työtä riippumatta siitä, kuinka tehokkaasti se suoritetaan.
 
-## 3.2 Avoid Repeated Work
+## 3.2 Vältä toistuvaa työtä
 
-Repeated execution of the same work increases cumulative energy footprint without adding functional value. Reuse, caching, and memoisation can significantly reduce redundant resource usage when applied deliberately and measured carefully. Empirical evaluation of API design variants has shown that introducing in-memory caching for repeated queries can reduce power draw by approximately 15%, while replacing inefficient algorithmic logic with optimised equivalents can yield reductions of up to 23% (Joof et al., 2025; Joof, 2025).
+Saman työn toistuva suorittaminen kasvattaa kumulatiivista energiajälkeä lisäämättä toiminnallista arvoa. Uudelleenkäyttö, välimuistitus ja muistiointi voivat merkittävästi vähentää redundanttia resurssien käyttöä, kun niitä sovelletaan harkitusti ja tuloksia mitataan huolellisesti. Empiirinen arviointi API-suunnitteluvarianteista on osoittanut, että muistinsisäisen välimuistituken käyttöönotto toistuviin kyselyihin voi vähentää tehonkulutusta noin 15 %, kun taas tehottoman algoritmisen logiikan korvaaminen optimoiduilla vastineilla voi tuottaa jopa 23 %:n säästöjä (Joof et al., 2025; Joof, 2025).
 
-The key qualifier is *deliberately and measured*. Caching is not universally beneficial: it consumes memory, introduces staleness risk, and only saves energy when the hit rate is high enough to justify the overhead. The same applies to precomputation, which shifts work from request time to build or startup time. This may reduce per-request energy but increases system-level energy if the precomputed results are rarely used.
+Oleellinen varaus on *harkitusti ja mitaten*. Välimuistitus ei ole yleisesti hyödyllistä: se kuluttaa muistia, aiheuttaa vanhentuneen datan riskin, ja säästää energiaa vain silloin, kun osumataajuus on riittävän korkea kattaakseen lisäkuorman. Sama koskee esikäsittelyä, joka siirtää työn pyyntöajasta rakennus- tai käynnistysaikaan. Tämä saattaa vähentää pyyntikohtaista energiaa, mutta lisää järjestelmätason energiaa, jos esikäsitellyt tulokset ovat harvoin käytössä.
 
-Repeated work is a particularly common problem in distributed systems, where the same data is fetched independently by multiple components, and in frontend applications, where components re-render in response to state changes that do not affect them.
+Toistuva työ on erityisen yleinen ongelma hajautetuissa järjestelmissä, joissa useat komponentit hakevat saman datan itsenäisesti, sekä frontend-sovelluksissa, joissa komponentit renderöityvät uudelleen tilaan muutoksiin vastatessa, vaikka muutos ei vaikuta niihin.
 
-## 3.3 Move and Store Less Data
+## 3.3 Siirrä ja tallenna vähemmän dataa
 
-Data movement and storage contribute significantly to energy consumption, particularly in distributed systems and mobile environments. Transmitting data over a network, reading and writing to disk, and copying data between memory regions all consume energy in proportion to the volume transferred.
+Datan siirto ja tallennus kuluttavat merkittävästi energiaa erityisesti hajautetuissa järjestelmissä ja mobiiliympäristöissä. Datan siirtäminen verkon yli, levylle kirjoittaminen ja sieltä lukeminen sekä datan kopiointi muistialueiden välillä kuluttavat energiaa siirrettyyn volyymiin suhteutettuna.
 
-Reducing payload sizes, eliminating redundant serialisation and deserialisation, compressing data where the CPU cost of compression is outweighed by the energy savings from reduced transfer, and avoiding unnecessary persistence are all practical expressions of this principle.
+Hyötykuormien koon pienentäminen, redundantin serialisoinnin ja deserialisoinnin poistaminen, datan pakkaaminen silloin kun pakkauksen CPU-kustannus on pienempi kuin pienemmästä siirrosta saatava energiasäästö, sekä tarpeettoman pysyvyistalletuksen välttäminen ovat kaikki tämän periaatteen käytännön ilmentymiä.
 
-The principle applies at every scale: reducing the number of columns selected in a database query, trimming the fields returned by an API, filtering log output, and removing unused dependencies from a software bundle are all instances of moving and storing less data.
+Periaate soveltuu kaikissa mittakaavoissa: tietokantakyselyssä valittujen sarakkeiden määrän vähentäminen, API:n palauttamien kenttien karsiminen, lokitulosteen suodattaminen ja käyttämättömien riippuvuuksien poistaminen ohjelmistoniputuksesta ovat kaikki esimerkkejä vähemmän datan siirtämisestä ja tallentamisesta.
 
-## 3.4 Prefer Efficient Abstractions
+## 3.4 Suosi tehokkaita abstraktioita
 
-Abstractions improve maintainability but can hide expensive operations. A convenient method call, a high-level framework feature, or a widely-used library may conceal significant computational overhead, particularly when used in a hot path, at scale, or in a resource-constrained environment.
+Abstraktiot parantavat ylläpidettävyyttä, mutta voivat piilottaa kalliita operaatioita. Kätevä metodikutsu, korkean tason kehysominaisuus tai laajasti käytetty kirjasto saattaa peittää merkittävän laskennallisen lisäkuorman, erityisesti kun sitä käytetään kuumassa polulla, suuressa mittakaavassa tai resurssirajoitteisessa ympäristössä.
 
-Green coding encourages awareness of the resource and energy implications of the abstractions in use. This does not mean abandoning abstractions in favour of low-level code, because in most cases the maintainability cost of doing so far outweighs the energy benefit. It means being deliberate: understanding what an abstraction does under the hood, choosing lighter alternatives when they exist and are functionally equivalent, and profiling rather than assuming that a familiar tool is efficient.
+Vihreä koodaus kannustaa tietoisuuteen käytössä olevien abstraktioiden resurssi- ja energiavaikutuksista. Tämä ei tarkoita abstraktioista luopumista matalan tason koodin hyväksi, sillä useimmissa tapauksissa siitä aiheutuva ylläpidettävyyden kustannus ylittää selvästi energiahyödyn. Se tarkoittaa harkitsevuutta: ymmärrystä siitä, mitä abstraktio tekee kulissien takana, kevyempien vaihtoehtojen valitsemista silloin kun ne ovat toiminnallisesti vastaavia, ja profilointia sen sijaan, että oletetaan tutun työkalun olevan tehokas.
 
-This principle is particularly relevant when selecting frameworks, runtimes, serialisation formats, and communication protocols, where the choice affects the entire system rather than a single operation.
+Tämä periaate on erityisen merkityksellinen kehyksiä, suoritusympäristöjä, serialisointiformaatteja ja viestintäprotokollia valittaessa, sillä valinta vaikuttaa koko järjestelmään yksittäisen operaation sijaan.
 
-## 3.5 Make Energy Footprint Visible
+## 3.5 Tee energiajälki näkyväksi
 
-Without measurement, energy efficiency remains speculative. Developers cannot reliably identify the most energy-intensive parts of a system through inspection alone, and energy improvements cannot be verified without a baseline to compare against.
+Ilman mittausta energiatehokkuus jää spekulatiiviseksi. Kehittäjät eivät pysty luotettavasti tunnistamaan järjestelmän energiaintensiivisimpiä osia pelkän tarkastelun avulla, eikä energiaparannuksia voida todentaa ilman vertailuperustaa.
 
-Visibility through profiling and comparison is essential for evidence-based green coding. This means establishing energy or resource baselines before optimising, measuring the impact of changes rather than assuming them, and making energy-related information available to the team through dashboards, CI metrics, or code review artefacts, so that it can inform decisions over time.
+Näkyvyys profiloinnin ja vertailun kautta on välttämätöntä näyttöön perustuvalle vihreälle koodaukselle. Tämä tarkoittaa energia- tai resurssilähtötasojen asettamista ennen optimointia, muutosten vaikutuksen mittaamista oletusten sijaan, sekä energiaan liittyvän tiedon saattamista tiimin saataville koontinäyttöjen, CI-mittareiden tai koodikatselmusartefaktien kautta, jotta se voi ohjata päätöksiä pitkällä aikavälillä.
 
-Visibility also means acknowledging uncertainty. Energy measurement tools have limitations (see [Section 7](/tradeoffs/)), and results should be interpreted comparatively and transparently rather than treated as precise absolute values. Prototype research integrating energy profiling directly into version control workflows has shown that commit-level energy feedback increases developer awareness of sustainability and influences design decisions, even among developers who had not previously considered energy as a quality concern (Joof et al., 2025; Joof, 2025).
+Näkyvyys tarkoittaa myös epävarmuuden myöntämistä. Energianmittaustyökaluilla on rajoituksensa (ks. [luku 7](/tradeoffs/)), ja tuloksia tulisi tulkita vertailevasti ja läpinäkyvästi eikä täsmällisinä absoluuttisina arvoina. Prototyypitutkimus, jossa energiaprofilointi integroitiin suoraan versionhallinnan työnkulkuihin, on osoittanut, että commit-tason energiapalaute lisää kehittäjien tietoisuutta kestävyydestä ja vaikuttaa suunnittelupäätöksiin — jopa niiden kehittäjien kohdalla, jotka eivät aiemmin olleet pitäneet energiaa laatutekijänä (Joof et al., 2025; Joof, 2025).
 
 ---
 
-## References
+## Viitteet
 
 Joof, M.B. (2025) *Green Coding in Practice: A Software Framework for API Energy Efficiency Measurement and Feedback*. Master's thesis. Lappeenranta–Lahti University of Technology LUT.
 

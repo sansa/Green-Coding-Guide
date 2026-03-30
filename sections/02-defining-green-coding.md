@@ -1,52 +1,52 @@
 ---
-title: "Defining Green Coding"
+title: "Vihreän koodauksen määritelmä"
 nav_order: 2
 permalink: /defining-green-coding/
 ---
 
-# 2. Defining Green Coding
+# 2. Vihreän koodauksen määritelmä
 
-## 2.1 What Is Green Coding?
+## 2.1 Mitä on vihreä koodaus?
 
-The term *green coding* is used in both academic and industrial contexts to describe software development practices aimed at reducing the environmental impact of software systems. However, the literature reveals that there is **no single, universally accepted definition** of green coding. Instead, the concept appears under related terms such as *green software*, *energy-efficient software*, and *sustainable software engineering* (Hilty and Aebischer, 2015; Procaccianti et al., 2014).
+Termiä *vihreä koodaus* käytetään sekä akateemisissa että teollisuuden yhteyksissä kuvaamaan ohjelmistokehityskäytäntöjä, joiden tavoitteena on vähentää ohjelmistojärjestelmien ympäristövaikutuksia. Kirjallisuus kuitenkin osoittaa, että vihreälle koodaukselle ei ole **yhtä, yleisesti hyväksyttyä määritelmää**. Sen sijaan käsite esiintyy siihen läheisesti liittyvien termien alla, kuten *vihreä ohjelmisto*, *energiatehokas ohjelmisto* ja *kestävä ohjelmistotuotanto* (Hilty and Aebischer, 2015; Procaccianti et al., 2014).
 
-Several representative definitions illustrate the range of perspectives:
+Useat edustavat määritelmät havainnollistavat näkökulmien kirjoa:
 
-- *Green and sustainable software* is often defined as software that “minimizes negative environmental impacts throughout its lifecycle” (Penzenstadler et al., 2014).
-- *Energy-efficient software* is commonly described as software that “reduces energy consumption during execution while maintaining acceptable performance” (Procaccianti et al., 2014).
-- *Sustainable software engineering* has been framed as the discipline of designing software systems with explicit consideration of long-term environmental, social, and economic impacts (Becker et al., 2016).
+- *Vihreä ja kestävä ohjelmisto* määritellään usein ohjelmistoksi, joka "minimoi kielteiset ympäristövaikutukset koko elinkaarensa aikana" (Penzenstadler et al., 2014).
+- *Energiatehokas ohjelmisto* kuvataan yleisesti ohjelmistoksi, joka "vähentää energiankulutusta suorituksen aikana säilyttäen samalla hyväksyttävän suorituskyvyn" (Procaccianti et al., 2014).
+- *Kestävä ohjelmistotuotanto* on määritelty tieteenalaksi, jossa ohjelmistojärjestelmiä suunnitellaan ottaen eksplisiittisesti huomioon pitkän aikavälin ympäristö-, sosiaaliset ja taloudelliset vaikutukset (Becker et al., 2016).
 
-These definitions differ primarily in **scope**. Some adopt a broad lifecycle perspective, encompassing development, deployment, use, and disposal, while others focus more narrowly on **runtime behavior**. For the purposes of this guide, whose primary audience includes software developers and architects making concrete design and implementation decisions, a runtime-focused definition provides the greatest practical and empirical value.
+Nämä määritelmät eroavat toisistaan ensisijaisesti **laajuudeltaan**. Osa omaksuu laajan elinkaarinäkökulman, joka kattaa kehityksen, käyttöönoton, käytön ja käytöstäpoiston, kun taas toiset keskittyvät kapeammin **suorituksenaikaiseen käyttäytymiseen**. Tämän oppaan ensisijainen kohderyhmä koostuu ohjelmistokehittäjistä ja -arkkitehdeistä, jotka tekevät konkreettisia suunnittelu- ja toteutuspäätöksiä; tässä yhteydessä suoritukseen keskittyvä määritelmä tarjoaa suurimman käytännöllisen ja empiirisen arvon.
 
-Accordingly, this guide adopts the following working definition:
+Tässä oppaassa käytetään seuraavaa työstöä helpottavaa määritelmää:
 
-> **Green coding is the design and implementation of software in a way that avoids unnecessary runtime energy and resource consumption while meeting functional and quality requirements.**
+> **Vihreä koodaus on ohjelmiston suunnittelua ja toteutusta tavalla, joka välttää tarpeetonta suorituksenaikaista energian- ja resurssienkulutusta samalla kun toiminnalliset ja laadulliset vaatimukset täytetään.**
 
-This definition highlights several important characteristics of green coding:
+Tämä määritelmä korostaa vihreän koodauksen useita tärkeitä ominaisuuksia:
 
-- The software energy footprint is primarily a **runtime property**, emerging during execution rather than during development alone.
-- Energy consumption is **workload-dependent**, varying with input data, usage patterns, and deployment context.
-- The energy footprint is shaped by **software decisions**, including algorithms, data structures, architectures, interaction patterns, and configuration choices.
-- Energy-related effects are **observable through measurement or estimation**, enabling empirical evaluation rather than reliance on intuition.
+- Ohjelmiston energiajalanjälki on ensisijaisesti **suorituksenaikainen ominaisuus**, joka ilmenee ajon aikana eikä pelkästään kehitysvaiheessa.
+- Energiankulutus on **kuormitusriippuvaista** ja vaihtelee syötedatan, käyttömallien ja käyttöönottokontekstin mukaan.
+- Energiajalanjälkeä muovaavat **ohjelmistopäätökset**, mukaan lukien algoritmit, tietorakenteet, arkkitehtuurit, vuorovaikutusmallit ja konfigurointivalinnat.
+- Energiaan liittyvät vaikutukset ovat **havaittavissa mittaamalla tai arvioimalla**, mikä mahdollistaa empiirisen arvioinnin intuition sijaan.
 
-By focusing on runtime energy consumption, this definition aligns green coding with established software quality concerns such as performance and scalability, while remaining compatible with broader sustainability perspectives that consider system-level and societal impacts. Green coding therefore applies across multiple levels of abstraction, from individual functions and methods to entire software architectures.
-
-
-## 2.2 What Green Coding Is *Not*
-
-Clarifying what green coding is *not* is essential to avoid common misconceptions that can limit its effectiveness or lead to misguided optimization efforts.
-
-First, green coding is **not synonymous with performance optimization**. Although execution time and energy consumption are often correlated, they are not equivalent. Faster execution can increase power draw due to higher utilization of CPUs or accelerators, resulting in higher total energy consumption in some cases (Hackenberg et al., 2015). Conversely, slightly slower execution may reduce energy usage by allowing hardware components to operate in more energy-efficient states. Performance metrics alone are therefore insufficient as proxies for energy efficiency.
-
-Second, green coding is **not a one-time activity**. Software systems evolve continuously through feature additions, refactoring, dependency updates, and configuration changes. Each of these changes can introduce energy regressions even when functional behavior remains unchanged. From this perspective, green coding is an **ongoing concern**, comparable to performance tuning or security hardening, rather than a single optimization phase.
-
-Third, green coding is **not about premature micro-optimization**. Isolated low-level optimizations performed without empirical validation often increase code complexity without delivering meaningful reductions in energy footprint. Empirical studies in sustainable software engineering emphasize that the most significant energy savings typically arise from high-level design and architectural decisions, validated through measurement (Procaccianti et al., 2016).
-
-Finally, green coding does not imply sacrificing correctness, maintainability, or other quality attributes by default. Instead, it promotes **explicit and informed trade-offs**, where energy efficiency is considered alongside functional and non-functional requirements. This perspective positions green coding as an integral part of responsible software engineering practice rather than an optional or secondary concern.
+Keskittymällä suorituksenaikaiseen energiankulutukseen tämä määritelmä yhdistää vihreän koodauksen vakiintuneisiin ohjelmiston laadullisiin huolenaiheisiin, kuten suorituskykyyn ja skaalautuvuuteen, samalla kun se on yhteensopiva laajempien kestävyysnäkökulmien kanssa, jotka ottavat huomioon järjestelmätason ja yhteiskunnalliset vaikutukset. Vihreä koodaus soveltuu siksi useille abstraktiotasoille yksittäisistä funktioista ja metodeista kokonaisiin ohjelmistoarkkitehtuureihin.
 
 
+## 2.2 Mitä vihreä koodaus *ei* ole
 
-## References
+On olennaista selventää, mitä vihreä koodaus *ei* ole, jotta voidaan välttää yleisiä väärinkäsityksiä, jotka voivat rajoittaa sen tehokkuutta tai johtaa harhautuneisiin optimointipyrkimyksiin.
+
+Ensinnäkin vihreä koodaus **ei ole synonyymi suorituskyvyn optimoinnille**. Vaikka suoritusaika ja energiankulutus korreloivat usein keskenään, ne eivät ole toistensa vastineita. Nopeampi suoritus voi kasvattaa tehonkulutusta CPU-prosessorien tai kiihdyttimien korkeamman käyttöasteen vuoksi, mikä joissain tapauksissa johtaa suurempaan kokonaisenergiankulutukseen (Hackenberg et al., 2015). Vastaavasti hieman hitaampi suoritus saattaa vähentää energiankulutusta sallimalla laitteistokomponenttien toimia energiatehokkaammissa tiloissa. Suorituskykymittarit yksinään ovat siksi riittämättömiä energiatehokkuuden välillisiksi mittareiksi.
+
+Toiseksi vihreä koodaus **ei ole kertaluonteinen toimenpide**. Ohjelmistojärjestelmät kehittyvät jatkuvasti ominaisuuslisäysten, refaktoroinnin, riippuvuuspäivitysten ja konfigurointimuutosten myötä. Jokainen näistä muutoksista voi aiheuttaa energiaregressioita, vaikka toiminnallinen käyttäytyminen pysyisi muuttumattomana. Tästä näkökulmasta vihreä koodaus on **jatkuva huolenaihe**, joka on verrattavissa suorituskyvyn virittämiseen tai tietoturvan vahvistamiseen, eikä yksittäinen optimointivaihe.
+
+Kolmanneksi vihreä koodaus **ei tarkoita ennenaikaista mikrooptimointia**. Eristyksissä tehdyt matalan tason optimoinnit ilman empiiristä validointia lisäävät usein koodin monimutkaisuutta tuottamatta merkityksellisiä vähennyksiä energiajalanjäljessä. Kestävän ohjelmistotuotannon empiiriset tutkimukset korostavat, että merkittävimmät energiasäästöt syntyvät tyypillisesti korkean tason suunnittelu- ja arkkitehtuuripäätöksistä, jotka on validoitu mittaamalla (Procaccianti et al., 2016).
+
+Lopuksi vihreä koodaus ei tarkoita oikeellisuuden, ylläpidettävyyden tai muiden laadullisten ominaisuuksien oletusarvoista uhraamista. Sen sijaan se edistää **eksplisiittisiä ja harkittuja kompromisseja**, joissa energiatehokkuus otetaan huomioon toiminnallisten ja ei-toiminnallisten vaatimusten rinnalla. Tämä näkökulma asettaa vihreän koodauksen vastuullisen ohjelmistotuotannon olennaiseksi osaksi pikemminkin kuin valinnaiseksi tai toissijaiseksi huolenaiheeksi.
+
+
+
+## Viitteet
 
 Becker, C., Betz, S., Chitchyan, R., Duboc, L., Easterbrook, S.M., Penzenstadler, B., Seyff, N. and Venters, C.C. (2016) *Requirements: The key to sustainability*. IEEE Software, 33(1), pp.56–65.
 
@@ -56,6 +56,6 @@ Hilty, L.M. and Aebischer, B. (2015) *ICT for sustainability: An emerging resear
 
 Penzenstadler, B., Bauer, V., Calero, C. and Franch, X. (2014) *Sustainability in software engineering: A systematic literature review*. Proceedings of the 16th International Conference on Evaluation & Assessment in Software Engineering (EASE), pp.1–10.
 
-Procaccianti, G., Lago, P. and Vetro’, A. (2014) *Energy efficiency in software: A systematic literature review*. Journal of Systems and Software, 97, pp.135–155.
+Procaccianti, G., Lago, P. and Vetro', A. (2014) *Energy efficiency in software: A systematic literature review*. Journal of Systems and Software, 97, pp.135–155.
 
 Procaccianti, G., Lago, P. and Lewis, G. (2016) *Green architectural tactics for the cloud*. Proceedings of the 2016 IEEE/ACM International Conference on Software Architecture (ICSA), pp.41–50.
