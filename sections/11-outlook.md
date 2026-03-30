@@ -4,7 +4,7 @@ nav_order: 11
 permalink: /outlook/
 ---
 
-# 9. Outlook and Future Directions
+# 11. Outlook and Future Directions
 
 Green coding is an evolving discipline.
 
