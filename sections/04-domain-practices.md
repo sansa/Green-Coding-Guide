@@ -54,16 +54,16 @@ GPS at full accuracy and high polling rate is among the most energy-intensive se
 Backend energy footprint is driven by CPU usage per request, data access patterns, and network communication volume. Because a single backend instance serves many concurrent users, inefficiencies compound rapidly with traffic growth.
 
 **Reduce work per request**
-Profile hot paths to identify operations that execute on every request. Eliminating or deferring even a single expensive database call, computation, or external service call from a high-traffic endpoint can yield significant aggregate energy savings across the server fleet. Treat per-request CPU time as a resource budget that should be defended as the codebase evolves.
+Profile hot paths to identify operations that execute on every request. Eliminating or deferring even a single expensive database call, computation, or external service call from a high-traffic endpoint can yield significant aggregate energy savings across the server fleet. Treat per-request CPU time as a resource budget that should be defended as the codebase evolves. In a controlled study comparing API design variants, replacing an O(n²) nested-loop sort with an optimised built-in equivalent reduced power draw by approximately 23% and response time by 43% relative to the unoptimised baseline (Joof et al., 2025; Joof, 2025).
 
 **Avoid N+1 queries and over-fetching**
 Loading a list of entities followed by individual queries for each entity is one of the most common and avoidable energy waste patterns in backend development. Replace N+1 patterns with a single batch query or an eager-loading mechanism provided by the ORM or query builder. Equally important is selecting only the columns required — fetching entire rows when only two fields are needed wastes I/O bandwidth and increases serialisation overhead.
 
 **Use bounded, measured caching**
-Caching is only beneficial if the hit rate justifies the memory footprint and staleness risk. An unbounded cache increases GC pressure and memory consumption; a cache with the wrong eviction policy may hold stale or rarely accessed entries. Instrument caches to measure hit rates, and set TTLs and size limits based on observed access patterns rather than defaults.
+Caching is only beneficial if the hit rate justifies the memory footprint and staleness risk. An unbounded cache increases GC pressure and memory consumption; a cache with the wrong eviction policy may hold stale or rarely accessed entries. Instrument caches to measure hit rates, and set TTLs and size limits based on observed access patterns rather than defaults. Empirical results from API-level profiling show that introducing in-memory caching for repeated queries reduces power consumption by approximately 15% and response time by 36% relative to an uncached baseline (Joof et al., 2025; Joof, 2025).
 
 **Minimise payload size and serialisation overhead**
-JSON serialisation and deserialisation is CPU-intensive at scale. For internal service-to-service communication, binary formats such as Protocol Buffers or MessagePack can reduce both CPU time and transfer volume. For external-facing APIs, support response field filtering (e.g., via `fields` query parameters or GraphQL selections) so that clients are not forced to receive and discard data they do not use.
+JSON serialisation and deserialisation is CPU-intensive at scale. For internal service-to-service communication, binary formats such as Protocol Buffers or MessagePack can reduce both CPU time and transfer volume. For external-facing APIs, support response field filtering (e.g., via `fields` query parameters or GraphQL selections) so that clients are not forced to receive and discard data they do not use. Note that payload compression involves an explicit trade-off: GZIP encoding reduces network transfer but increases CPU consumption, and the net energy impact depends on the relative cost of transmission versus processing in the deployment environment (Joof et al., 2025; Joof, 2025).
 
 ---
 
@@ -150,3 +150,7 @@ Patterson, D., Gonzalez, J., Le, Q., Liang, C., Munguia, L.M., Rothchild, D., So
 Pereira, R., Couto, M., Ribeiro, F., Rua, R., Cunha, J., Fernandes, J.P. and Saraiva, J. (2017) *Energy efficiency across programming languages: How do energy, time, and memory relate?* Proceedings of the 10th ACM SIGPLAN International Conference on Software Language Engineering, pp.256–267.
 
 Strubell, E., Ganesh, A. and McCallum, A. (2019) *Energy and policy considerations for deep learning in NLP*. Proceedings of the 57th Annual Meeting of the Association for Computational Linguistics (ACL), pp.3645–3650.
+
+Joof, M.B. (2025) *Green Coding in Practice: A Software Framework for API Energy Efficiency Measurement and Feedback*. Master's thesis. Lappeenranta–Lahti University of Technology LUT.
+
+Joof, M.B., Khan, M.A., Oyedeji, S. and Porras, J. (2025) *Integrating API Energy Profiling into Developer Workflows: The VerdeFlow Prototype*. In Proceedings of the IEEE/ACM International Conference on Software Engineering: Workshop on Green and Sustainable Software (ICSE-GREENS). ACM.

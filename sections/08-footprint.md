@@ -50,7 +50,7 @@ External power meters measure the total energy consumed by a system at the wall 
 **Model-based estimation**
 When direct measurement is unavailable — as is commonly the case in cloud and shared infrastructure — energy consumption can be estimated from CPU utilisation, memory usage, and workload characteristics using empirical models. The accuracy of such estimates varies considerably and depends on the quality of the underlying hardware characterisation. The Cloud Carbon Footprint project and the Software Carbon Intensity (SCI) specification from the Green Software Foundation are examples of frameworks that formalise this approach.
 
-Regardless of the measurement approach, attribution is most reliable when a single workload runs in isolation on known hardware. In production environments, attribution is always partial — and results should be interpreted accordingly (see also [Section 7, Measurement Uncertainty](/tradeoffs/)).
+Regardless of the measurement approach, attribution is most reliable when a single workload runs in isolation on known hardware. In production environments, attribution is always partial — and results should be interpreted accordingly (see also [Section 7, Measurement Uncertainty](/tradeoffs/)). A practical demonstration of API-level attribution combines containerised execution — which isolates the target workload from background processes — with a software energy profiler such as PowerJoular to attribute power consumption to specific endpoints and commit versions. This approach achieves strong agreement with direct profiler readings (Pearson r = 0.94) while requiring only commodity hardware and open-source tooling (Joof et al., 2025; Joof, 2025).
 
 ## 8.4 Energy, Power, and Carbon: Clarifying the Terms
 
@@ -69,7 +69,7 @@ For most software optimisation work, **energy** is the most directly actionable 
 The software energy footprint is not determined by code alone. It is the product of an interaction between software behaviour and execution environment. The principal factors are:
 
 **Algorithmic complexity**
-The asymptotic complexity of an algorithm determines how its resource consumption scales with input size. A O(n²) algorithm applied to a large dataset may consume orders of magnitude more energy than an O(n log n) alternative. Algorithmic choices therefore have the highest leverage on energy footprint at scale, and they are made early in development — making them among the most important decisions to evaluate from an energy perspective (Pereira et al., 2017).
+The asymptotic complexity of an algorithm determines how its resource consumption scales with input size. A O(n²) algorithm applied to a large dataset may consume orders of magnitude more energy than an O(n log n) alternative. Algorithmic choices therefore have the highest leverage on energy footprint at scale, and they are made early in development — making them among the most important decisions to evaluate from an energy perspective (Pereira et al., 2017). This effect is measurable even at small scale: replacing a custom nested-loop sort with a language built-in sort in a backend API reduced power draw by 23% and CPU utilisation from 34.5% to 26.1% under a standardised request workload (Joof et al., 2025; Joof, 2025).
 
 **Data access patterns**
 Whether computations operate on data that is in CPU cache, in main memory, or on disk has a large effect on energy consumption. Cache-friendly data structures and access patterns — those that exhibit spatial and temporal locality — are significantly more energy-efficient than those that scatter memory accesses across large address ranges.
@@ -94,3 +94,7 @@ Pathak, A., Hu, Y.C. and Zhang, M. (2012) *Where is the energy spent inside my a
 Pereira, R., Couto, M., Ribeiro, F., Rua, R., Cunha, J., Fernandes, J.P. and Saraiva, J. (2017) *Energy efficiency across programming languages: How do energy, time, and memory relate?* Proceedings of the 10th ACM SIGPLAN International Conference on Software Language Engineering, pp.256–267.
 
 Treiber, M. (2015) *RAPL in action: Experiences in using RAPL for power measurements*. ACM Transactions on Modeling and Performance Evaluation of Computing Systems, 1(1), pp.1–26.
+
+Joof, M.B. (2025) *Green Coding in Practice: A Software Framework for API Energy Efficiency Measurement and Feedback*. Master's thesis. Lappeenranta–Lahti University of Technology LUT.
+
+Joof, M.B., Khan, M.A., Oyedeji, S. and Porras, J. (2025) *Integrating API Energy Profiling into Developer Workflows: The VerdeFlow Prototype*. In Proceedings of the IEEE/ACM International Conference on Software Engineering: Workshop on Green and Sustainable Software (ICSE-GREENS). ACM.

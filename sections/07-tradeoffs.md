@@ -18,7 +18,7 @@ Reducing CPU work often increases memory usage — for example, precomputing and
 
 Reducing data transfer can require additional computation — for example, compressing a payload before sending it or pre-aggregating data server-side instead of transferring raw records. Conversely, skipping computation to send data faster keeps the network active longer and may increase device-side processing costs.
 
-**Decision heuristic:** When user-perceived latency is not the binding constraint, prefer to reduce transfer volume. When latency is critical, benchmark whether the energy cost of additional processing (compression, aggregation) is recovered by reduced transmission time. Note that network energy costs vary substantially between wired, Wi-Fi, and mobile radio contexts.
+**Decision heuristic:** When user-perceived latency is not the binding constraint, prefer to reduce transfer volume. When latency is critical, benchmark whether the energy cost of additional processing (compression, aggregation) is recovered by reduced transmission time. Note that network energy costs vary substantially between wired, Wi-Fi, and mobile radio contexts. This trade-off has been observed empirically in API-level profiling: adding GZIP compression to API responses reduced network payload but increased CPU load relative to an in-memory caching variant, resulting in higher power consumption (250 mW vs 240 mW) despite smaller transfer sizes — illustrating that compression is not unconditionally beneficial (Joof et al., 2025; Joof, 2025).
 
 ## 7.3 Efficiency vs. Maintainability
 
@@ -43,3 +43,11 @@ Energy measurement has inherent limitations. Software-accessible counters (such 
 Beyond eliminating major inefficiencies — redundant computation, unnecessary data transfer, idle resource holding — additional optimisation yields progressively smaller energy savings at increasing implementation cost. The first 20% of optimisation effort often accounts for 80% of the achievable improvement.
 
 **Decision heuristic:** Prioritise interventions by estimated energy impact per unit of implementation effort. Use profiling to identify the dominant contributors to energy footprint before investing in optimisation. Stop optimising a component when further improvements require disproportionate complexity or risk, and redirect effort toward higher-impact areas identified by measurement.
+
+---
+
+## References
+
+Joof, M.B. (2025) *Green Coding in Practice: A Software Framework for API Energy Efficiency Measurement and Feedback*. Master's thesis. Lappeenranta–Lahti University of Technology LUT.
+
+Joof, M.B., Khan, M.A., Oyedeji, S. and Porras, J. (2025) *Integrating API Energy Profiling into Developer Workflows: The VerdeFlow Prototype*. In Proceedings of the IEEE/ACM International Conference on Software Engineering: Workshop on Green and Sustainable Software (ICSE-GREENS). ACM.

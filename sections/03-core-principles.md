@@ -18,7 +18,7 @@ This principle also applies at the architectural level. Processing that could be
 
 ## 3.2 Avoid Repeated Work
 
-Repeated execution of the same work increases cumulative energy footprint without adding functional value. Reuse, caching, and memoisation can significantly reduce redundant resource usage when applied deliberately and measured carefully.
+Repeated execution of the same work increases cumulative energy footprint without adding functional value. Reuse, caching, and memoisation can significantly reduce redundant resource usage when applied deliberately and measured carefully. Empirical evaluation of API design variants has shown that introducing in-memory caching for repeated queries can reduce power draw by approximately 15%, while replacing inefficient algorithmic logic with optimised equivalents can yield reductions of up to 23% (Joof et al., 2025; Joof, 2025).
 
 The key qualifier is *deliberately and measured*. Caching is not universally beneficial: it consumes memory, introduces staleness risk, and only saves energy when the hit rate is high enough to justify the overhead. The same applies to precomputation — it shifts work from request time to build or startup time, which may reduce per-request energy but increases system-level energy if the precomputed results are rarely used.
 
@@ -40,10 +40,18 @@ Green coding encourages awareness of the resource and energy implications of the
 
 This principle is particularly relevant when selecting frameworks, runtimes, serialisation formats, and communication protocols, where the choice affects the entire system rather than a single operation.
 
+---
+
+## References
+
+Joof, M.B. (2025) *Green Coding in Practice: A Software Framework for API Energy Efficiency Measurement and Feedback*. Master's thesis. Lappeenranta–Lahti University of Technology LUT.
+
+Joof, M.B., Khan, M.A., Oyedeji, S. and Porras, J. (2025) *Integrating API Energy Profiling into Developer Workflows: The VerdeFlow Prototype*. In Proceedings of the IEEE/ACM International Conference on Software Engineering: Workshop on Green and Sustainable Software (ICSE-GREENS). ACM.
+
 ## 3.5 Make Energy Footprint Visible
 
 Without measurement, energy efficiency remains speculative. Developers cannot reliably identify the most energy-intensive parts of a system through inspection alone, and energy improvements cannot be verified without a baseline to compare against.
 
 Visibility through profiling and comparison is essential for evidence-based green coding. This means establishing energy or resource baselines before optimising, measuring the impact of changes rather than assuming them, and making energy-related information available to the team — through dashboards, CI metrics, or code review artefacts — so that it can inform decisions over time.
 
-Visibility also means acknowledging uncertainty. Energy measurement tools have limitations (see [Section 7](/tradeoffs/)), and results should be interpreted comparatively and transparently rather than treated as precise absolute values.
+Visibility also means acknowledging uncertainty. Energy measurement tools have limitations (see [Section 7](/tradeoffs/)), and results should be interpreted comparatively and transparently rather than treated as precise absolute values. Prototype research integrating energy profiling directly into version control workflows has shown that commit-level energy feedback increases developer awareness of sustainability and influences design decisions, even among developers who had not previously considered energy as a quality concern (Joof et al., 2025; Joof, 2025).
