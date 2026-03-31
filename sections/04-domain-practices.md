@@ -1,145 +1,145 @@
 ---
-title: "Green Coding Practices by Domain"
+title: "Vihreän koodauksen käytännöt toimialoittain"
 nav_order: 4
 permalink: /domain-practices/
 ---
 
-# 4. Green Coding Practices by Domain
+# 4. Vihreän koodauksen käytännöt toimialoittain
 
-Green coding principles apply across domains, but their practical impact depends on execution context. This section organises practices by domain, focusing on **dominant contributors to runtime energy footprint**. The practices below expand on the core principles from [Section 3](/core-principles/) and are intended to give practitioners a concrete starting point for each domain.
-
----
-
-## 4.1 Frontend – Web Applications
-
-Energy footprint drivers include JavaScript execution, rendering, and network activity. Because the same code runs on millions of user devices, frontend inefficiency is multiplied across the entire user base, making even small per-page improvements significant at scale (Manotas et al., 2016).
-
-**Minimise unnecessary re-renders and layout thrashing**
-In component-based frameworks, a state change in a parent can trigger re-renders in subtrees that are unaffected by the change. Each re-render involves diffing, DOM patching, style recalculation, and potentially layout, all of which is CPU work that generates heat on the user's device. Use memoisation, selector functions, and component splitting to ensure that only the components that need to update actually do. Similarly, avoid interleaving DOM reads and writes in JavaScript loops, which forces the browser to repeatedly recalculate layout (a pattern known as layout thrashing).
-
-**Reduce bundle size through code splitting and lazy loading**
-Larger JavaScript bundles require more parsing, compilation, and execution time, all of which consume energy before a single line of application logic runs. Code splitting ensures that users download and execute only the code needed for their current view. Lazy loading defers the rest until it is actually required. Audit bundle composition regularly using build analysis tools, and remove unused dependencies.
-
-**Avoid chatty API interactions**
-Multiple small, sequential API calls keep the network interface active and increase latency. Each network request also has a fixed energy overhead independent of payload size: initiating a connection, performing DNS resolution, and completing the TCP/TLS handshake. Consolidate related requests, use HTTP/2 multiplexing where available, and consider query languages (such as GraphQL) that allow the client to specify exactly the data it needs.
-
-**Use caching and HTTP mechanisms effectively**
-Redundant data transfer is one of the most avoidable sources of frontend energy consumption. Correct use of `Cache-Control` headers, ETags, and service workers can eliminate repeat fetches of unchanged resources entirely. Measure actual cache hit rates to confirm that caching is working as intended.
-
-**Prefer CSS and hardware-accelerated animations over JavaScript loops**
-JavaScript-driven animations run on the main thread and compete with layout and rendering. CSS transitions and the Web Animations API delegate work to the compositor thread, which is typically GPU-accelerated and does not block main thread execution. Use `transform` and `opacity` for animations, as these properties can be composited without triggering layout or paint.
+Vihreän koodauksen periaatteet soveltuvat kaikille toimialoille, mutta niiden käytännöllinen vaikutus riippuu suorituskontekstista. Tässä osiossa käytännöt on järjestetty toimialoittain keskittyen **suorituksenaikaisen energiajalanjäljen keskeisiin tekijöihin**. Alla esitetyt käytännöt laajentavat [osion 3](/core-principles/) ydinyperiaatteita ja tarjoavat käytännön lähtökohdan kullekin toimialalle.
 
 ---
 
-## 4.2 Frontend – Mobile Applications
+## 4.1 Frontend – Verkkosovellukset
 
-Mobile energy footprint is dominated by battery usage from the CPU, network radios, display, and sensors. The cost of waking the device from a low-power state is significant: a single unnecessary wakeup can consume as much energy as many milliseconds of normal CPU activity (Pathak et al., 2012).
+Energiajalanjäljen keskeisiä tekijöitä ovat JavaScript-suoritus, renderöinti ja verkkoliikenne. Koska sama koodi suoritetaan miljoonilla käyttäjien laitteilla, frontendin tehottomuus moninkertaistuu koko käyttäjäkunnan laajuudella, jolloin jopa pienet sivukohtaiset parannukset ovat merkittäviä laajassa mittakaavassa (Manotas et al., 2016).
 
-**Reduce background activity and wakeups**
-Each background wakeup forces the CPU and potentially the network radio out of a low-power sleep state. Consolidate background tasks using platform-provided APIs such as `WorkManager` on Android and `BGTaskScheduler` on iOS, which allow the OS to schedule work during periods when the device is already active or charging. Avoid independent timers and alarms for tasks that can tolerate batching.
+**Minimoi tarpeettomat uudelleenrenderöinnit ja layout thrashing**
+Komponenttipohjaisissa kehyksissä vanhemman tilan muutos voi käynnistää uudelleenrenderöinnin alipuissa, joihin muutos ei vaikuta. Jokainen uudelleenrenderöinti sisältää erojen laskemisen, DOM:n paikkaamisen, tyylin uudelleenlaskennan ja mahdollisesti layoutin, jotka kaikki ovat CPU-työtä, joka tuottaa lämpöä käyttäjän laitteessa. Käytä muistintallennusta (memoisation), valitsijafunktioita ja komponenttien pilkkomista varmistaaksesi, että vain todella muuttuneet komponentit päivittyvät. Vältä myös DOM-lukujen ja -kirjoitusten vuorottelua JavaScript-silmukoissa, mikä pakottaa selaimen laskemaan layoutin toistuvasti uudelleen (tunnetaan nimellä layout thrashing).
 
-**Batch network requests and support offline workflows**
-The cellular radio (LTE/5G) is one of the most energy-intensive components in a mobile device and consumes significant power even in the tail period after a transmission ends, while waiting for further activity. Batching requests into fewer, larger interactions reduces the total time the radio spends in its active and tail states. Supporting offline workflows, by storing and replaying operations when connectivity is restored, further reduces unnecessary transmission.
+**Pienennä bundle-kokoa koodin jakamisella ja laiskalla latauksella**
+Suuremmat JavaScript-bundlet vaativat enemmän jäsentämistä, kääntämistä ja suoritusaikaa, joista kaikki kuluttavat energiaa ennen kuin yhtäkään sovelluksen logiikan riviä ajetaan. Koodin jakaminen varmistaa, että käyttäjät lataavat ja suorittavat vain sen koodin, jota tarvitaan heidän nykyisessä näkymässään. Laiska lataus lykkää muun lataamista siihen asti, kun sitä todella tarvitaan. Tarkasta bundlen koostumus säännöllisesti rakennusanalyysityökaluilla ja poista käyttämättömät riippuvuudet.
 
-**Optimise rendering and scrolling**
-Off-screen rendering, excessive overdraw (drawing the same pixel multiple times per frame), and repeated layout passes drain battery directly. Use view recycling (e.g., `RecyclerView`, `LazyColumn`) to avoid rendering off-screen content. Reduce overdraw by flattening view hierarchies and removing opaque backgrounds that are hidden by foreground content.
+**Vältä runsasta API-liikennettä**
+Useat pienet, peräkkäiset API-kutsut pitävät verkkoliitännän aktiivisena ja lisäävät viivettä. Jokaisella verkkopyynnöllä on myös kiinteä energiakustannus hyötykuorman koosta riippumatta: yhteyden muodostaminen, DNS-selvitys ja TCP/TLS-kättelyn suorittaminen. Yhdistä toisiinsa liittyvät pyynnöt, käytä HTTP/2-multipleksointia tarvittaessa ja harkitse kyselykieliä (kuten GraphQL), joilla asiakas voi määrittää tarvitsemansa tiedot tarkasti.
 
-**Use sensors conservatively and at appropriate precision**
-GPS at full accuracy and high polling rate is among the most energy-intensive sensors on a mobile device. Where coarse location is sufficient, use `PRIORITY_LOW_POWER` or geofencing rather than continuous high-accuracy tracking. Apply the same principle to accelerometers, gyroscopes, and microphones: request the lowest sampling rate and precision that satisfies the functional requirement, and unregister listeners when they are no longer needed.
+**Käytä välimuistia ja HTTP-mekanismeja tehokkaasti**
+Tarpeeton tiedonsiirto on yksi eniten vältettävistä frontendin energiankulutuksen lähteistä. `Cache-Control`-otsikoiden, ETagien ja service workereiden oikea käyttö voi poistaa kokonaan muuttumattomien resurssien uudelleenlataukset. Mittaa todelliset välimuistin osumataajuudet varmistaaksesi, että välimuisti toimii tarkoitetulla tavalla.
 
----
-
-## 4.3 Backend – Services and APIs
-
-Backend energy footprint is driven by CPU usage per request, data access patterns, and network communication volume. Because a single backend instance serves many concurrent users, inefficiencies compound rapidly with traffic growth.
-
-**Reduce work per request**
-Profile hot paths to identify operations that execute on every request. Eliminating or deferring even a single expensive database call, computation, or external service call from a high-traffic endpoint can yield significant aggregate energy savings across the server fleet. Treat per-request CPU time as a resource budget that should be defended as the codebase evolves. In a controlled study comparing API design variants, replacing an O(n²) nested-loop sort with an optimised built-in equivalent reduced power draw by approximately 23% and response time by 43% relative to the unoptimised baseline (Joof et al., 2025; Joof, 2025).
-
-**Avoid N+1 queries and over-fetching**
-Loading a list of entities followed by individual queries for each entity is one of the most common and avoidable energy waste patterns in backend development. Replace N+1 patterns with a single batch query or an eager-loading mechanism provided by the ORM or query builder. Equally important is selecting only the columns required, because fetching entire rows when only two fields are needed wastes I/O bandwidth and increases serialisation overhead.
-
-**Use bounded, measured caching**
-Caching is only beneficial if the hit rate justifies the memory footprint and staleness risk. An unbounded cache increases GC pressure and memory consumption; a cache with the wrong eviction policy may hold stale or rarely accessed entries. Instrument caches to measure hit rates, and set TTLs and size limits based on observed access patterns rather than defaults. Empirical results from API-level profiling show that introducing in-memory caching for repeated queries reduces power consumption by approximately 15% and response time by 36% relative to an uncached baseline (Joof et al., 2025; Joof, 2025).
-
-**Minimise payload size and serialisation overhead**
-JSON serialisation and deserialisation is CPU-intensive at scale. For internal service-to-service communication, binary formats such as Protocol Buffers or MessagePack can reduce both CPU time and transfer volume. For external-facing APIs, support response field filtering (e.g., via `fields` query parameters or GraphQL selections) so that clients are not forced to receive and discard data they do not use. Note that payload compression involves an explicit trade-off: GZIP encoding reduces network transfer but increases CPU consumption, and the net energy impact depends on the relative cost of transmission versus processing in the deployment environment (Joof et al., 2025; Joof, 2025).
+**Suosi CSS- ja laitteistokiihdytettyjä animaatioita JavaScript-silmukoiden sijaan**
+JavaScript-ohjatut animaatiot toimivat pääsäikeessä ja kilpailevat layoutin ja renderöinnin kanssa. CSS-siirtymät ja Web Animations API delegoivat työn compositor-säikeelle, joka on tyypillisesti GPU-kiihdytetty eikä estä pääsäikeen suoritusta. Käytä animaatioissa `transform`- ja `opacity`-ominaisuuksia, sillä nämä ominaisuudet voidaan yhdistää ilman layoutin tai piirron käynnistämistä.
 
 ---
 
-## 4.4 Backend – Data Processing and Storage
+## 4.2 Frontend – Mobiilisovellukset
 
-Data pipelines consume energy through prolonged execution and large-scale I/O. Unlike interactive services, pipelines often run without a user waiting for a response, which means their energy consumption is less visible but no less real.
+Mobiilin energiajalanjälki koostuu pääasiassa akkujen käytöstä CPU:n, verkkoradioiden, näytön ja antureiden toiminnassa. Laitteen herättäminen matalan virrankulutuksen tilasta on merkittävä kustannus: yksi tarpeeton herätys voi kuluttaa yhtä paljon energiaa kuin monta millisekuntia normaalia CPU-toimintaa (Pathak et al., 2012).
 
-**Avoid full recomputation of unchanged data**
-Re-running a pipeline over input data that has not changed since the last run is pure waste. Detect unchanged partitions using checksums, modification timestamps, or incremental computation frameworks (such as Apache Spark's structured streaming or dbt's incremental models), and skip them. Even a partial reduction in recomputation scope can substantially reduce total pipeline energy.
+**Vähennä taustatoimintaa ja herätyksiä**
+Jokainen taustaherätys pakottaa CPU:n ja mahdollisesti verkkoradion pois matalan virrankulutuksen unitilasta. Yhdistä taustatoiminnot alustan tarjoamia API:ja käyttäen, kuten `WorkManager` Androidilla ja `BGTaskScheduler` iOS:llä, jotka sallivat käyttöjärjestelmän ajoittaa työn laitteen jo aktiivisina tai latauksessa olevina jaksoina. Vältä erillisiä ajastimia ja hälytyksiä tehtäville, jotka sietävät eräajoa.
 
-**Use incremental and checkpointed processing**
-Long-running batch jobs that restart from scratch on failure waste all the energy invested in the failed run. Checkpointing, which periodically saves intermediate state to durable storage, enables the pipeline to resume from the last stable point rather than the beginning. The energy cost of writing checkpoints is typically small relative to the cost of a full restart.
+**Niputa verkkopyynnöt ja tue offline-työnkulkuja**
+Matkapuhelinradio (LTE/5G) on yksi mobiililaitteen energiaintensiivisimmistä komponenteista ja kuluttaa merkittävästi virtaa myös siirron päätyttyä olevan odotusjakson aikana. Pyyntöjen niputtaminen harvempiin, suurempiin vuorovaikutuksiin lyhentää aikaa, jonka radio viettää aktiivisessa ja odotustilassa. Offline-työnkulkujen tukeminen tallentamalla ja toistamalla toiminnot, kun yhteys palautuu, vähentää edelleen tarpeetonta tiedonsiirtoa.
 
-**Apply data retention and lifecycle policies**
-Storage energy grows with data volume: more data means more disk reads, more index maintenance, and more backup and replication overhead. Define and enforce retention policies that expire data when it is no longer needed for operational, analytical, or compliance purposes. Move cold data, such as infrequently queried historical records, to lower-power storage tiers rather than keeping it on high-performance primary storage.
+**Optimoi renderöinti ja vierittäminen**
+Kuvaruudun ulkopuolinen renderöinti, liiallinen overdraw (saman pikselin piirtäminen useita kertoja per kuva) ja toistuvat layoutin läpikäynnit kuluttavat akkua suoraan. Käytä näkymäkierrätysmenetelmiä (esim. `RecyclerView`, `LazyColumn`) välttääksesi näytön ulkopuolisen sisällön renderöinnin. Vähennä overdrawn tasaistaen näkymähierarkioita ja poistaen etusisällön peittämät opaakit taustat.
 
-**Align processing frequency with actual needs**
-Running an hourly pipeline to produce results that are consumed daily is unnecessary work. Review the scheduling frequency of each pipeline in relation to the actual decision latency requirement of its downstream consumers. Where a delay is acceptable, prefer event-driven triggers over fixed schedules to avoid processing empty or minimal increments.
-
----
-
-## 4.5 Backend – Infrastructure and Cloud
-
-Infrastructure choices determine the baseline energy cost of running software before any request is served. Over-provisioned or poorly configured infrastructure wastes energy continuously, not just under load.
-
-**Right-size compute resources**
-An instance running at 5% average CPU utilisation is consuming roughly the same idle power as one running at 60%, while delivering far less useful work per watt. Profile actual resource utilisation across representative workload periods and right-size instances accordingly. Cloud environments make this reversible, so start conservatively and scale based on observed demand rather than theoretical peaks.
-
-**Use scale-to-zero and serverless patterns for bursty workloads**
-Services that are idle for significant portions of the day benefit from architectures that allow compute resources to scale down to zero when not in use. Serverless functions, container-based autoscaling (e.g., Knative, AWS Lambda, Google Cloud Run), and scheduled shutdown of non-production environments all reduce energy consumption during periods of low demand.
-
-**Consider the carbon intensity of deployment regions**
-The same workload produces different lifecycle carbon emissions depending on where it runs. Cloud regions powered predominantly by renewable energy sources have substantially lower carbon intensity than those relying on coal or gas. For workloads where latency requirements allow geographic flexibility, such as batch jobs, asynchronous processing, or data pipelines, prefer regions with lower carbon intensity. Most major cloud providers publish real-time or historical carbon intensity data for their regions.
-
-**Enforce autoscaling and avoid sustained idle over-provisioning**
-Fixed-capacity deployments that are sized for peak load remain fully provisioned and consuming energy during off-peak hours. Configure autoscaling policies that reduce replica count, instance size, or cluster node count during sustained low-traffic periods. Combine this with scheduled scaling for predictable traffic patterns (e.g., scaling down overnight for services with a known diurnal usage pattern).
+**Käytä antureita säästeliäästi ja sopivalla tarkkuudella**
+GPS täydellä tarkkuudella ja korkealla kyselytaajuudella on yksi mobiililaitteen energiaintensiivisimmistä antureista. Jos karkea sijainti riittää, käytä `PRIORITY_LOW_POWER`- tai geofencing-menetelmää jatkuvan tarkan seurannan sijaan. Sovella samaa periaatetta kiihtyvyysantureihin, gyroskooppeihin ja mikrofoneihin: pyydä alin näytteenottotaajuus ja tarkkuus, joka täyttää toiminnallisen vaatimuksen, ja poista kuuntelijoiden rekisteröinti, kun niitä ei enää tarvita.
 
 ---
 
-## 4.6 AI Development – Training
+## 4.3 Backend – Palvelut ja API:t
 
-AI training energy footprint is dominated by accelerator (GPU/TPU) runtime. Training a large model can consume hundreds to thousands of kilowatt-hours, which often exceeds the lifetime inference energy for many deployments (Strubell et al., 2019; Patterson et al., 2021).
+Backendin energiajalanjälkeä ohjaavat CPU-käyttö per pyyntö, tietojenkäyttömallit ja verkkoviestinnän volyymi. Koska yksi backend-instanssi palvelee monia samanaikaisia käyttäjiä, tehottomuudet kertautuvat nopeasti liikenteen kasvaessa.
 
-**Right-size models and datasets**
-Larger models and datasets do not always produce proportionally better results for a given task. Evaluate whether a smaller, fine-tuned, or distilled model meets quality requirements before committing to large-scale training. Similarly, audit training datasets for duplicates and low-quality samples that increase compute time without improving generalisation.
+**Vähennä pyyntökohtaista työtä**
+Profiloi kuumat polut tunnistaaksesi operaatiot, jotka suoritetaan jokaisella pyynnöllä. Jopa yhden kalliin tietokantakutsun, laskennan tai ulkoisen palvelukutsun poistaminen tai lykkääminen vilkkaasta päätepisteestä voi tuottaa merkittäviä kokonaisenergian säästöjä palvelinflotassa. Kohtele pyyntökohtaista CPU-aikaa resurssipankkina, jota tulee puolustaa koodikannan kehittyessä. Hallitussa tutkimuksessa, jossa verrattiin API-suunnitteluvaihtoehtoja, O(n²)-sisäkkäissilmukkalajittelun korvaaminen optimoidulla sisäänrakennetulla vastineella vähensi tehonkulutusta noin 23 % ja vasteaikaa 43 % optimoimattomaan lähtötasoon verrattuna (Joof et al., 2025; Joof, 2025).
 
-**Avoid redundant experiments**
-Training runs with near-identical hyperparameters, or re-running an experiment that was interrupted without saving a checkpoint, are common sources of avoidable energy consumption. Use experiment tracking tools (such as MLflow or Weights & Biases) to record configurations and results, and establish convergence criteria before starting a run rather than judging retroactively.
+**Vältä N+1-kyselyitä ja liiallista hakemista**
+Entiteettilistan lataaminen ja sen jälkeen yksittäisten kyselyiden tekeminen jokaiselle entiteetille on yksi yleisimmistä ja vältettävissä olevista energiantuhlauksen malleista backend-kehityksessä. Korvaa N+1-mallit yksittäisellä erä-kyselyllä tai ORM:n tai kyselynrakentajan tarjoamalla innokkaaseen lataamiseen tarkoitetulla mekanismilla. Yhtä tärkeää on valita vain tarvittavat sarakkeet, sillä kokonaisten rivien hakeminen, kun tarvitaan vain kaksi kenttää, tuhlaa I/O-kaistanleveyttä ja lisää serialisointiylikuormaa.
 
-**Apply early stopping and efficient training techniques**
-Monitor validation metrics throughout training and stop when improvement plateaus rather than running for a fixed number of epochs. Mixed-precision training (FP16 or BF16) reduces memory bandwidth consumption and computation time per step on supported hardware, typically without material quality loss. Learning rate scheduling, gradient accumulation, and efficient attention implementations are further well-established techniques for reducing total training compute.
+**Käytä rajattua, mitattua välimuistia**
+Välimuisti on hyödyllinen vain, jos osumataajuus oikeuttaa muistijalanjäljen ja vanhenemisriskin. Rajoittamaton välimuisti lisää GC-painetta ja muistinkulutusta; väärällä poistokäytännöllä varustettu välimuisti saattaa pitää sisällään vanhentuneita tai harvoin käytettyjä merkintöjä. Instrumentoi välimuistit osumataajuuksien mittaamiseen ja aseta TTL:t ja kokorajoitukset havaittuihin käyttömalleihin eikä oletusarvoihin perustuen. Empiiriset tulokset API-tason profiloinnista osoittavat, että muistinsisäisen välimuistin käyttöönotto toistuviin kyselyihin vähentää tehonkulutusta noin 15 % ja vasteaikaa 36 % välimuistittomaan lähtötasoon verrattuna (Joof et al., 2025; Joof, 2025).
 
-**Maximise hardware utilisation**
-Low GPU utilisation during training, commonly caused by data loading bottlenecks, preprocessing on the CPU, or inefficient batching, means energy is consumed without productive work. Profile GPU utilisation and address pipeline stalls by prefetching data, increasing the number of data loader workers, or preprocessing and caching inputs offline.
-
----
-
-## 4.7 AI Usage – Inference
-
-Inference energy footprint scales with request volume. Unlike training, which occurs once per model version, inference runs continuously in production and its cumulative energy cost often exceeds the training cost over the deployment lifetime of a model.
-
-**Use the smallest effective model**
-Model complexity should be matched to task requirements. A large general-purpose model applied to a narrow, well-defined task is likely to be significantly over-specified. Techniques including quantisation (reducing numerical precision), pruning (removing low-weight connections), and distillation (training a smaller model to replicate a larger one's behaviour) can substantially reduce inference energy without proportional loss in output quality.
-
-**Minimise prompt and input size**
-In transformer-based models, self-attention complexity scales quadratically with input length. Longer prompts and larger context windows directly increase per-request compute cost. Trim irrelevant context, avoid verbose prompt templates, and evaluate whether retrieved context snippets can be shorter without reducing answer quality.
-
-**Cache deterministic outputs and embeddings**
-Identical or semantically equivalent queries that reliably produce the same output should be served from cache rather than triggering re-inference. Embedding computations for fixed reference documents should similarly be precomputed and cached rather than recalculated on each request. Semantic caching, which matches queries that are paraphrases of each other, can extend cache hit rates beyond exact-match scenarios.
-
-**Batch requests where feasible**
-Batching amortises the fixed cost of loading model weights from memory and allows the accelerator to operate at higher utilisation. For asynchronous or near-real-time use cases, accumulate requests into batches and process them together. Dynamic batching, which groups requests that arrive within a short time window, can achieve most of the throughput benefit without imposing significant additional latency.
+**Minimoi hyötykuorman koko ja serialisointiylikuorma**
+JSON-serialisointi ja -deserialisointi on CPU-intensiivistä suuressa mittakaavassa. Palveluiden välisessä sisäisessä viestinnässä binäärimuodot kuten Protocol Buffers tai MessagePack voivat vähentää sekä CPU-aikaa että siirtomäärää. Ulkoisille API:lle tarjoa vastauksen kenttäsuodatus (esim. `fields`-kyselyparametrien tai GraphQL-valintojen kautta), jotta asiakkaita ei pakoteta vastaanottamaan ja hylkäämään tietoa, jota he eivät käytä. Huomaa, että hyötykuorman pakkaaminen sisältää selkeän kompromissin: GZIP-koodaus vähentää verkonsiirtoa mutta lisää CPU-kulutusta, ja nettoenergian vaikutus riippuu siirron ja käsittelyn suhteellisista kustannuksista käyttöympäristössä (Joof et al., 2025; Joof, 2025).
 
 ---
 
-## References
+## 4.4 Backend – Datan käsittely ja tallennus
+
+Dataputket kuluttavat energiaa pitkittyneen suorituksen ja laajamittaisen I/O:n kautta. Toisin kuin interaktiiviset palvelut, putkilinjat toimivat usein ilman vastaavan käyttäjän odottamista, mikä tarkoittaa, että niiden energiankulutus on vähemmän näkyvää mutta ei yhtään vähäisempää.
+
+**Vältä muuttumattoman datan täydellistä uudelleenlaskentaa**
+Putkilinjan uudelleenajaminen syötedatalle, joka ei ole muuttunut edellisestä ajosta, on puhdasta tuhlausta. Tunnista muuttumattomat osiot tarkistussummien, muokkausaikaleimamerkintöjen tai inkrementaalisten laskentakehysten (kuten Apache Sparkin structured streaming tai dbt:n inkrementaalimallit) avulla ja ohita ne. Jopa osittainen uudelleenlaskennan laajuuden vähennys voi merkittävästi pienentää putkilinjan kokonaisenergiaa.
+
+**Käytä inkrementaalista ja tarkistuspistepohjaista käsittelyä**
+Pitkään suorittavat eräajot, jotka käynnistyvät alusta epäonnistumisen jälkeen, tuhlaavat kaiken epäonnistuneeseen ajoon investoidun energian. Tarkistuspisteytys, joka tallentaa ajoittain välivaiheen tilan kestävään tallennustilaan, mahdollistaa putkilinjan jatkamisen viimeisestä vakaasta kohdasta alun sijaan. Tarkistuspisteiden kirjoittamisen energiakustannus on tyypillisesti pieni suhteessa täyden uudelleenkäynnistyksen kustannukseen.
+
+**Sovella datan säilytyskäytäntöjä ja elinkaaripolitiikkoja**
+Tallennusenergia kasvaa datamäärän mukana: enemmän dataa tarkoittaa enemmän levylukuja, enemmän indeksien ylläpitoa sekä enemmän varmuuskopiointi- ja replikointiylikuormaa. Määrittele ja noudata säilytyskäytäntöjä, jotka poistavat datan, kun sitä ei enää tarvita operatiivisiin, analyyttisiin tai vaatimustenmukaisuustarkoituksiin. Siirrä kylmä data, kuten harvoin kyselty historiallinen tieto, pienitehoisempiin tallennuskerroksiin sen sijaan, että se pidetään suorituskykyisessä pääasiallisessa tallennuksessa.
+
+**Sovita käsittelytaajuus todellisiin tarpeisiin**
+Tunnin välein ajettavan putkilinjan suorittaminen tulosten tuottamiseksi, joita kulutetaan päivittäin, on tarpeetonta työtä. Tarkista kunkin putkilinjan aikataulutustiheys suhteessa alajuoksun kuluttajien todelliseen päätöksen viivevaatimukseen. Kun viive on hyväksyttävissä, suosi tapahtumaohjattuja käynnistimiä kiinteiden aikataulujen sijaan välttääksesi tyhjien tai minimaalisten lisäysten käsittelyn.
+
+---
+
+## 4.5 Backend – Infrastruktuuri ja pilvi
+
+Infrastruktuurivalinnat määrittävät ohjelmiston ajamisen perusenergian ennen kuin yhtään pyyntöä on palveltu. Yliprovisioidut tai huonosti konfiguroidut infrastruktuurit tuhlaa energiaa jatkuvasti, ei pelkästään kuormituksen aikana.
+
+**Mitoita laskentaresurssit oikein**
+Instanssi, joka toimii 5 % keskimääräisellä CPU-käyttöasteella, kuluttaa suunnilleen saman verran joutokäyntitehoa kuin instanssi 60 % käyttöasteella, tuottaen samalla huomattavasti vähemmän hyödyllistä työtä per watti. Profiloi todellinen resurssienkäyttö edustavien kuormitusjaksojen aikana ja mitoita instanssit sen mukaisesti. Pilviympäristöt tekevät tästä palautettavan toimenpiteen, joten aloita konservatiivisesti ja skaalaa havaitun kysynnän eikä teoreettisten huippujen perusteella.
+
+**Käytä nollaan skaalautuvia ja palvelimettomia malleja purskuvaisille kuormituksille**
+Palvelut, jotka ovat joutokäynnillä merkittävän osan päivästä, hyötyvät arkkitehtuureista, jotka mahdollistavat laskentaresurssien skaalaamisen nollaan käyttämättömänä aikana. Palvelimettomat funktiot, konttipohjainen automaattinen skaalaus (esim. Knative, AWS Lambda, Google Cloud Run) ja tuotantoympäristöjen ulkopuolisten ympäristöjen ajoitettu sammuttaminen vähentävät kaikki energiankulutusta alhaisen kysynnän jaksoina.
+
+**Harkitse käyttöönottoalueiden hiili-intensiteettiä**
+Sama kuormitus tuottaa erilaiset elinkaarihiilidioksidipäästöt riippuen siitä, missä se ajetaan. Pääosin uusiutuvilla energialähteillä toimivilla pilvipalvelualueilla on huomattavasti alhaisempi hiili-intensiteetti kuin kivihiileen tai kaasuun nojaavilla alueilla. Kuormituksille, joissa viivevaatimukset sallivat maantieteellisen joustavuuden, kuten eräajoille, asynkroniselle käsittelylle tai dataputkille, suosi alueita, joilla on alhaisempi hiili-intensiteetti. Useimmat suuret pilvipalveluntarjoajat julkaisevat reaaliaikaisia tai historiallisia hiili-intensiteettitietoja alueidensa osalta.
+
+**Pakota automaattinen skaalaus ja vältä pitkittynyttä joutilaana yliprovisiointia**
+Kiinteäkapasiteettisiin käyttöönottoihin, jotka on mitoitettu huippukuormitusta varten, jää täysi kapasiteetti varattuna ja energiaa kuluttavana hiljaisina tunteina. Konfiguroi automaattiset skaalauskäytännöt, jotka vähentävät replikoiden määrää, instanssikokoa tai klusterin solmumäärää pitkittyneiden matalan liikenteen jaksojen aikana. Yhdistä tämä ajoitettuun skaalaukseen ennustettaville liikennemalleille (esim. yön yli skaalaaminen alas palveluille, joilla on tunnettu vuorokautinen käyttömalli).
+
+---
+
+## 4.6 Tekoälyn kehittäminen – Kouluttaminen
+
+Tekoälyn koulutuksen energiajalanjälkeä dominoi kiihdyttimen (GPU/TPU) suoritusaika. Suuren mallin kouluttaminen voi kuluttaa satoja tai jopa tuhansia kilowattitunteja, mikä usein ylittää monen käyttöönoton elinikäisen päättelykäytön energian (Strubell et al., 2019; Patterson et al., 2021).
+
+**Mitoita mallit ja aineistot oikein**
+Suuremmat mallit ja aineistot eivät aina tuota suhteessa parempia tuloksia tiettyä tehtävää varten. Arvioi, täyttääkö pienempi, hienosäädetty tai distilloitu malli laatuvaatimukset ennen laajamittaisen koulutuksen aloittamista. Tarkasta myös koulutusaineistot duplikaattien ja huonolaatuisten näytteiden varalta, jotka lisäävät laskenta-aikaa parantamatta yleistämiskykyä.
+
+**Vältä tarpeettomat kokeet**
+Koulutusajot lähes identtisillä hyperparametreilla tai keskeytyneen kokeen uudelleenajaminen ilman tarkistuspisteen tallentamista ovat yleisiä vältettävissä olevan energiankulutuksen lähteitä. Käytä kokeenseurantatyökaluja (kuten MLflow tai Weights & Biases) konfiguraatioiden ja tulosten kirjaamiseen ja aseta konvergenskriteerit ennen ajon käynnistämistä eikä jälkikäteen arvioiden.
+
+**Sovella varhaista pysäyttämistä ja tehokkaita koulutustekniikkoja**
+Seuraa validointimittareita koulutuksen aikana ja pysähdy, kun parannus tasaantuu, sen sijaan että ajettaisiin kiinteä määrä epocheja. Sekatarkkuuskoulutus (FP16 tai BF16) vähentää muistikaistanleveyskulutusta ja laskenta-aikaa per vaihe tuetuilla laitteistoilla tyypillisesti ilman merkittävää laadunylikuormaa. Oppimistahdin aikataulutus, gradienttien akkumulointi ja tehokkaat huomio-toteutukset ovat edelleen vakiintuneita tekniikoita kokonaislaskennan vähentämiseen.
+
+**Maksimoi laitteiston käyttöaste**
+Matala GPU-käyttöaste koulutuksen aikana, joka johtuu yleisesti datan latauksen pullonkauloista, CPU:n esikäsittelystä tai tehottomasta erästyksen, tarkoittaa, että energiaa kulutetaan ilman tuottavaa työtä. Profiloi GPU-käyttöaste ja korjaa putkilinjan hidastukset esihakemalla dataa, lisäämällä datan latausohjainten määrää tai esikäsittelemällä ja tallentamalla syötteet välimuistiin offline-tilassa.
+
+---
+
+## 4.7 Tekoälyn käyttö – Päättely
+
+Päättelyn energiajalanjälki kasvaa pyyntömäärän mukana. Toisin kuin koulutus, joka tapahtuu kerran malliversiota kohti, päättely toimii jatkuvasti tuotannossa ja sen kumulatiivinen energiakustannus ylittää usein koulutuskustannuksen mallin käyttöönottokauden aikana.
+
+**Käytä pienintä tehokasta mallia**
+Mallin monimutkaisuus tulisi sovittaa tehtävävaatimuksiin. Suuri yleiskäyttöinen malli, jota sovelletaan kapeaan, hyvin määriteltyyn tehtävään, on todennäköisesti merkittävästi ylimitoitettu. Tekniikat kuten kvantisointi (numeerisen tarkkuuden pienentäminen), karsinta (pieniarvoisien yhteyksien poistaminen) ja distillaatio (pienemmän mallin kouluttaminen replikoimaan suuremman mallin käyttäytymistä) voivat merkittävästi vähentää päättelyenergiaa ilman suhteellista häviötä tulostenlaadussa.
+
+**Minimoi kehotteiden ja syötteiden koko**
+Transformer-pohjaisissa malleissa itseohjautuvan huomion monimutkaisuus kasvaa neliöllisesti syötteen pituuden mukaan. Pidemmät kehotteet ja suuremmat kontekstiikkunat lisäävät suoraan pyyntökohtaista laskentakustannusta. Karsii epäolennainen konteksti, vältä monisanaisia kehotemallipohjia ja arvioi, voidaanko haetut kontekstikatkelmia lyhentää vaikuttamatta vastauslaatuu.
+
+**Tallenna deterministiset tulosteet ja upotukset välimuistiin**
+Identtiset tai semanttisesti vastaavat kyselyt, jotka tuottavat luotettavasti saman tulosteen, tulisi palvella välimuistista eikä käynnistää uudelleenpäättelyä. Kiinteiden viitedokumenttien upotuslaskelmat tulisi vastaavasti esihakea ja tallentaa välimuistiin eikä laskea uudelleen jokaisella pyynnöllä. Semanttinen välimuistitus, joka täsmää toistensa parafraaseja olevat kyselyt, voi ulottaa välimuistin osumataajuudet tarkkojen vastaavuuksien ulkopuolelle.
+
+**Niputa pyynnöt mahdollisuuksien mukaan**
+Erästys jakaa mallipainojen muistista lataamisen kiinteän kustannuksen ja mahdollistaa kiihdyttimen toimimisen korkeammalla käyttöasteella. Asynkronisille tai lähes reaaliaikaisille käyttötapauksille kerää pyynnöt eriin ja käsittele ne yhdessä. Dynaaminen erästys, joka ryhmittelee lyhyen aikavälin sisällä saapuvat pyynnöt, voi saavuttaa suurimman osan läpäisykykyhyödystä ilman merkittävää lisäviivettä.
+
+---
+
+## Viitteet
 
 Manotas, I., Bird, C., Zhang, R., Shepherd, D., Jaspan, C., Sadowski, C., Pollock, L. and Clause, J. (2016) *An empirical study of practitioners' perspectives on green software engineering*. Proceedings of the 38th International Conference on Software Engineering (ICSE), pp.237–248.
 
